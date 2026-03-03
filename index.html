@@ -4,30 +4,24 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Ridho — @ridhogeprek</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@900&family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --rose: #f472b6;
-    --sky: #7dd3fc;
-    --lilac: #c084fc;
-    --bg: #fdf4fb;
-    --text: #1a1025;
-    --sub: #64748b;
-    --glass: rgba(255, 255, 255, 0.65);
-    --border: rgba(255, 255, 255, 0.4);
-    --inner-glow: rgba(255, 255, 255, 0.5);
+    --rose: #f472b6; --sky: #7dd3fc; --lilac: #c084fc;
+    --bg: #fdf4fb; --text: #1a1025; --sub: #64748b;
+    --glass: rgba(255, 255, 255, 0.75);
+    --border: rgba(255, 255, 255, 0.5);
+    --accent: #f472b6;
   }
 
   [data-theme="dark"] {
-    --bg: #030712;
-    --text: #f9fafb;
-    --sub: #94a3b8;
-    --glass: rgba(17, 24, 39, 0.7);
-    --border: rgba(255, 255, 255, 0.08);
-    --inner-glow: rgba(255, 255, 255, 0.03);
+    --bg: #030308; --text: #ffffff; --sub: #94a3b8;
+    --glass: rgba(15, 15, 25, 0.8);
+    --border: rgba(255, 255, 255, 0.1);
+    --accent: #7dd3fc;
   }
 
-  * { box-sizing: border-box; margin: 0; padding: 0; cursor: default; }
+  * { box-sizing: border-box; margin: 0; padding: 0; cursor: default; -webkit-tap-highlight-color: transparent; }
   
   body {
     background: var(--bg);
@@ -36,282 +30,235 @@
     min-height: 100vh;
     display: flex;
     justify-content: center;
-    padding: 80px 24px;
-    transition: background 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-    -webkit-font-smoothing: antialiased;
-    overflow-x: hidden;
+    padding: 60px 24px;
+    transition: background 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden; /* Mencegah scroll saat modal muncul */
   }
 
-  /* Canvas for Particles */
-  #canvas {
-    position: fixed; top: 0; left: 0; pointer-events: none; z-index: 1;
-  }
-
-  .bg-mesh {
-    position: fixed; inset: 0; pointer-events: none; z-index: 0;
-  }
-  .bg-mesh span {
+  /* Smooth Mesh Background */
+  .bg-mesh { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+  .bg-mesh div {
     position: absolute; border-radius: 50%; filter: blur(120px);
-    opacity: 0.3; animation: float 25s ease-in-out infinite alternate;
+    opacity: 0.4; animation: morph 25s infinite alternate ease-in-out;
   }
-  .bg-mesh span:nth-child(1) { width: 50vw; height: 50vw; background: var(--rose); top: -10%; right: -5%; }
-  .bg-mesh span:nth-child(2) { width: 40vw; height: 40vw; background: var(--sky); bottom: -5%; left: -5%; animation-delay: -7s; }
+  .c1 { width: 450px; height: 450px; background: var(--rose); top: -10%; right: -10%; }
+  .c2 { width: 400px; height: 400px; background: var(--sky); bottom: -5%; left: -5%; animation-delay: -5s; }
 
-  @keyframes float { from{transform:translate(0,0) rotate(0deg)} to{transform:translate(-50px,80px) rotate(15deg)} }
-
-  .wrapper { max-width: 420px; width: 100%; position: relative; z-index: 10; }
-
-  /* Header Section */
-  .profile { text-align: center; margin-bottom: 48px; }
-  
-  .avatar-ring {
-    width: 128px; height: 128px; margin: 0 auto 24px;
-    position: relative; border-radius: 50%; padding: 4px;
-    background: linear-gradient(135deg, var(--rose), var(--sky), var(--lilac));
-    box-shadow: 0 20px 40px -10px rgba(244, 114, 182, 0.3);
-  }
-  
-  .avatar { 
-    width: 100%; height: 100%; border-radius: 50%; 
-    background: #e5e7eb; object-fit: cover; border: 4px solid var(--bg);
+  @keyframes morph {
+    0% { transform: translate(0, 0) scale(1) rotate(0deg); }
+    100% { transform: translate(60px, 120px) scale(1.3) rotate(20deg); }
   }
 
-  .name {
-    font-family: 'Playfair Display', serif;
-    font-size: 3rem; font-weight: 900; line-height: 1.1;
-    margin-bottom: 12px; letter-spacing: -0.03em;
-    background: linear-gradient(90deg, var(--text), var(--rose), var(--text));
-    background-size: 200% auto;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    animation: shimmer 4s linear infinite;
+  .wrapper { 
+    max-width: 400px; width: 100%; position: relative; z-index: 10; 
+    overflow-y: auto; height: 100%; -ms-overflow-style: none; scrollbar-width: none;
   }
+  .wrapper::-webkit-scrollbar { display: none; }
 
-  @keyframes shimmer { to { background-position: 200% center; } }
-
-  .username {
-    font-size: 0.85rem; font-weight: 700; color: var(--sub);
-    text-transform: uppercase; letter-spacing: 0.4em;
+  /* Profile Animation */
+  .profile { text-align: center; margin-bottom: 40px; }
+  .avatar-wrap {
+    width: 130px; height: 130px; margin: 0 auto 24px;
+    position: relative; padding: 6px;
+    background: linear-gradient(135deg, var(--rose), var(--lilac), var(--sky));
+    border-radius: 40% 60% 70% 30% / 40% 50% 60% 70%;
+    animation: profileShape 10s ease-in-out infinite alternate;
+    box-shadow: 0 15px 45px -10px rgba(244, 114, 182, 0.4);
   }
+  @keyframes profileShape {
+    0% { border-radius: 40% 60% 70% 30% / 40% 50% 60% 70%; }
+    100% { border-radius: 70% 40% 30% 60% / 60% 30% 60% 40%; }
+  }
+  .avatar { width: 100%; height: 100%; border-radius: inherit; object-fit: cover; border: 4px solid var(--bg); transition: 0.8s; }
+
+  .name { font-family: 'Playfair Display', serif; font-size: 2.8rem; letter-spacing: -1.5px; margin-bottom: 8px; }
+  .username { font-size: 0.85rem; font-weight: 700; color: var(--sub); letter-spacing: 4px; text-transform: uppercase; opacity: 0.7; }
+
+  /* Music Player with Glow */
+  .music-card {
+    background: var(--glass); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--border);
+    padding: 14px 24px; border-radius: 60px;
+    margin-bottom: 35px; display: flex; align-items: center; gap: 15px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.04);
+  }
+  .viz-bar { width: 3px; height: 15px; background: var(--accent); border-radius: 4px; opacity: 0.3; }
+  .playing .viz-bar { animation: bounce 0.8s infinite alternate ease-in-out; }
+  @keyframes bounce { 0% { height: 5px; opacity: 0.3; } 100% { height: 18px; opacity: 1; } }
 
   /* Links List */
-  .links { display: grid; gap: 16px; }
-
+  .links { display: grid; gap: 14px; }
   .link-card {
-    background: var(--glass);
-    backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+    background: var(--glass); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
     border: 1px solid var(--border);
     padding: 18px 24px; border-radius: 24px;
     text-decoration: none; color: var(--text);
     display: flex; align-items: center; justify-content: space-between;
-    box-shadow: 0 10px 20px -5px rgba(0,0,0,0.03), inset 0 0 15px var(--inner-glow);
     transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    opacity: 0; transform: translateY(20px);
-    animation: slideUp 0.6s forwards;
-    cursor: pointer;
+    opacity: 0; transform: translateY(30px);
+    animation: slideUp 0.8s forwards ease-out;
   }
-
   @keyframes slideUp { to { opacity: 1; transform: translateY(0); } }
 
-  .link-card:nth-child(1) { animation-delay: 0.1s; --hover-clr: #25D366; }
-  .link-card:nth-child(2) { animation-delay: 0.2s; --hover-clr: #E1306C; }
-  .link-card:nth-child(3) { animation-delay: 0.3s; --hover-clr: #00f2ea; }
-  .link-card:nth-child(4) { animation-delay: 0.4s; --hover-clr: #FF0000; }
-  .link-card:nth-child(5) { animation-delay: 0.5s; --hover-clr: #44a6f1; }
-
   .link-card:hover {
-    transform: translateY(-5px) scale(1.02);
+    transform: scale(1.05) translateY(-5px);
     background: var(--text); color: var(--bg);
-    border-color: var(--hover-clr);
-    box-shadow: 0 20px 40px -10px rgba(0,0,0,0.1);
+    box-shadow: 0 20px 40px -10px rgba(0,0,0,0.15);
   }
 
-  .link-content { display: flex; align-items: center; gap: 16px; pointer-events: none; }
-  .link-content span { font-weight: 600; font-size: 1.05rem; }
-  .icon-svg { width: 22px; height: 22px; stroke: currentColor; stroke-width: 2; fill: none; }
-
-  /* Interface Elements */
-  .theme-toggle {
-    position: fixed; top: 24px; right: 24px; z-index: 100;
-    background: var(--glass); border: 1px solid var(--border);
-    width: 44px; height: 44px; border-radius: 14px; cursor: pointer;
-    display: flex; align-items: center; justify-content: center; color: var(--text);
-    transition: 0.3s ease;
-  }
-
-  .music-player {
-    position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%);
-    background: var(--glass); padding: 10px 24px; border-radius: 100px;
-    display: flex; align-items: center; gap: 16px; backdrop-filter: blur(24px);
-    border: 1px solid var(--border); z-index: 100;
-  }
-  .play-btn {
-    background: var(--rose); color: white; border: none;
-    width: 38px; height: 38px; border-radius: 50%; cursor: pointer;
+  /* MODAL STYLING */
+  #modalOverlay {
+    position: fixed; inset: 0; background: rgba(0,0,0,0.4);
+    backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
     display: flex; align-items: center; justify-content: center;
+    z-index: 1000; opacity: 0; pointer-events: none;
+    transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   }
-  #youtube-player { position: absolute; visibility: hidden; width: 0; height: 0; }
+  #modalOverlay.active { opacity: 1; pointer-events: auto; }
+
+  .modal-box {
+    background: var(--glass); border: 1px solid var(--border);
+    padding: 32px; border-radius: 32px; width: 90%; max-width: 320px;
+    text-align: center; transform: scale(0.8) translateY(20px);
+    transition: 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    box-shadow: 0 30px 60px -12px rgba(0,0,0,0.25);
+  }
+  #modalOverlay.active .modal-box { transform: scale(1) translateY(0); }
+
+  .modal-btn-wrap { display: flex; gap: 12px; margin-top: 24px; }
+  .m-btn {
+    flex: 1; padding: 14px; border-radius: 16px; border: none;
+    font-weight: 700; font-family: 'Outfit'; cursor: pointer; transition: 0.3s;
+  }
+  .m-cancel { background: transparent; color: var(--text); border: 1px solid var(--border); }
+  .m-confirm { background: var(--accent); color: white; box-shadow: 0 10px 20px -5px var(--accent); }
+  .m-confirm:hover { transform: translateY(-2px); filter: brightness(1.1); }
+
+  /* Theme Toggle */
+  .theme-btn {
+    position: fixed; top: 25px; right: 25px; width: 48px; height: 48px;
+    border-radius: 18px; background: var(--glass); border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center; z-index: 100;
+    transition: 0.3s;
+  }
+  .theme-btn:active { transform: scale(0.9); }
+
+  #yt-player { position: absolute; visibility: hidden; pointer-events: none; }
 </style>
 </head>
 <body>
 
-<canvas id="canvas"></canvas>
-<div class="bg-mesh"><span></span><span></span></div>
+<div class="bg-mesh"><div class="c1"></div><div class="c2"></div></div>
 
-<button class="theme-toggle" id="themeBtn" aria-label="Toggle Theme">
-  <svg id="themeIcon" class="icon-svg" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+<button class="theme-btn" id="themeToggle">
+  <svg style="width:20px; stroke:currentColor; fill:none; stroke-width:2" id="themeIcon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
 </button>
 
 <div class="wrapper">
   <header class="profile">
-    <div class="avatar-ring">
-      <img src="profile.jpg" alt="Ridho" class="avatar">
-    </div>
+    <div class="avatar-wrap"><img src="profile.jpg" alt="Ridho" class="avatar"></div>
     <h1 class="name">Ridho</h1>
-    <span class="username">@ridhogeprek</span>
+    <p class="username">@ridhogeprek</p>
   </header>
 
+  <div class="music-card">
+    <button id="playBtn" style="border:none; background:var(--accent); color:white; width:38px; height:38px; border-radius:50%; display:flex; align-items:center; justify-content:center; transition:0.3s;">
+      <svg id="pIcon" style="width:14px; fill:currentColor" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+    </button>
+    <div style="flex-grow:1">
+      <p style="font-size: 0.8rem; font-weight: 700;">Blue Boi</p>
+      <p style="font-size: 0.7rem; color: var(--sub);">LAKEY INSPIRED</p>
+    </div>
+    <div class="viz-cont" id="viz" style="display:flex; gap:3px; align-items:flex-end; height:18px;">
+      <div class="viz-bar"></div><div class="viz-bar" style="animation-delay:0.2s"></div><div class="viz-bar" style="animation-delay:0.4s"></div>
+    </div>
+  </div>
+
   <main class="links">
-    <a href="https://wa.me/6287753475412" class="link-card" target="_blank">
-      <div class="link-content">
-        <svg class="icon-svg" viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 1 1-7.6-11.7 8.38 8.38 0 0 1 3.8.9L21 3.5Z"></path></svg>
-        <span>WhatsApp</span>
-      </div>
-      <svg class="icon-svg" style="width:16px; opacity:0.5" viewBox="0 0 24 24"><path d="M5 12h14m-7-7 7 7-7 7"></path></svg>
+    <a href="#" data-url="https://wa.me/6287753475412" class="link-card link-trigger" style="animation-delay: 0.1s;">
+      <span style="font-weight:600">WhatsApp</span>
+      <svg style="width:16px; opacity:0.5; stroke:currentColor; fill:none; stroke-width:2" viewBox="0 0 24 24"><path d="M5 12h14m-7-7 7 7-7 7"></path></svg>
     </a>
-    
-    <a href="https://www.instagram.com/ridhogeprek" class="link-card" target="_blank">
-      <div class="link-content">
-        <svg class="icon-svg" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
-        <span>Instagram</span>
-      </div>
-      <svg class="icon-svg" style="width:16px; opacity:0.5" viewBox="0 0 24 24"><path d="M5 12h14m-7-7 7 7-7 7"></path></svg>
+    <a href="#" data-url="https://www.instagram.com/ridhogeprek" class="link-card link-trigger" style="animation-delay: 0.2s;">
+      <span style="font-weight:600">Instagram</span>
+      <svg style="width:16px; opacity:0.5; stroke:currentColor; fill:none; stroke-width:2" viewBox="0 0 24 24"><path d="M5 12h14m-7-7 7 7-7 7"></path></svg>
     </a>
-
-    <a href="https://www.tiktok.com/@ridhogeprek" class="link-card" target="_blank">
-      <div class="link-content">
-        <svg class="icon-svg" viewBox="0 0 24 24"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"></path></svg>
-        <span>TikTok</span>
-      </div>
-      <svg class="icon-svg" style="width:16px; opacity:0.5" viewBox="0 0 24 24"><path d="M5 12h14m-7-7 7 7-7 7"></path></svg>
+    <a href="#" data-url="https://www.tiktok.com/@ridhogeprek" class="link-card link-trigger" style="animation-delay: 0.3s;">
+      <span style="font-weight:600">TikTok</span>
+      <svg style="width:16px; opacity:0.5; stroke:currentColor; fill:none; stroke-width:2" viewBox="0 0 24 24"><path d="M5 12h14m-7-7 7 7-7 7"></path></svg>
     </a>
-
-    <a href="https://youtube.com/@y4timz" class="link-card" target="_blank">
-      <div class="link-content">
-        <svg class="icon-svg" viewBox="0 0 24 24"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"></path><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon></svg>
-        <span>YouTube</span>
-      </div>
-      <svg class="icon-svg" style="width:16px; opacity:0.5" viewBox="0 0 24 24"><path d="M5 12h14m-7-7 7 7-7 7"></path></svg>
-    </a>
-
-    <a href="https://www.roblox.com/users/profile?username=y4timz" class="link-card" target="_blank">
-      <div class="link-content">
-        <svg class="icon-svg" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><path d="M9 9h6v6H9z"></path></svg>
-        <span>Roblox</span>
-      </div>
-      <svg class="icon-svg" style="width:16px; opacity:0.5" viewBox="0 0 24 24"><path d="M5 12h14m-7-7 7 7-7 7"></path></svg>
+    <a href="#" data-url="https://youtube.com/@y4timz" class="link-card link-trigger" style="animation-delay: 0.4s;">
+      <span style="font-weight:600">YouTube</span>
+      <svg style="width:16px; opacity:0.5; stroke:currentColor; fill:none; stroke-width:2" viewBox="0 0 24 24"><path d="M5 12h14m-7-7 7 7-7 7"></path></svg>
     </a>
   </main>
 </div>
 
-<div id="youtube-player"></div>
-
-<div class="music-player">
-  <button class="play-btn" id="playBtn">
-    <svg id="playIcon" style="width:18px;height:18px;fill:currentColor" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
-  </button>
-  <div style="line-height:1.2">
-    <p style="font-size: 0.7rem; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase;">Friendly Fire</p>
-    <p style="font-size: 0.65rem; color: var(--sub); font-weight: 500;">Linkin Park</p>
+<div id="modalOverlay">
+  <div class="modal-box">
+    <h3 style="font-family:'Playfair Display'; font-size:1.5rem; margin-bottom:12px">Buka Link?</h3>
+    <p style="font-size:0.9rem; color:var(--sub); line-height:1.5">Kamu akan diarahkan keluar dari halaman ini. Lanjutkan?</p>
+    <div class="modal-btn-wrap">
+      <button class="m-btn m-cancel" id="mCancel">Batal</button>
+      <button class="m-btn m-confirm" id="mConfirm">Gass!</button>
+    </div>
   </div>
 </div>
 
+<div id="yt-player"></div>
+
 <script src="https://www.youtube.com/iframe_api"></script>
 <script>
-  // Canvas Particles
-  const canvas = document.getElementById('canvas');
-  const ctx = canvas.getContext('2d');
-  let particles = [];
-
-  function resize() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-  }
-  window.addEventListener('resize', resize);
-  resize();
-
-  class Particle {
-    constructor(x, y) {
-      this.x = x; this.y = y;
-      this.size = Math.random() * 3 + 1;
-      this.speedX = Math.random() * 1 - 0.5;
-      this.speedY = Math.random() * 1 - 0.5;
-      this.opacity = 1;
-    }
-    update() {
-      this.x += this.speedX;
-      this.y += this.speedY;
-      this.opacity -= 0.01;
-    }
-    draw() {
-      ctx.fillStyle = `rgba(244, 114, 182, ${this.opacity})`;
-      ctx.beginPath();
-      ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-      ctx.fill();
-    }
-  }
-
-  window.addEventListener('mousemove', (e) => {
-    for(let i=0; i<2; i++) particles.push(new Particle(e.x, e.y));
-  });
-
-  function animate() {
-    ctx.clearRect(0,0,canvas.width, canvas.height);
-    for(let i=0; i<particles.length; i++) {
-      particles[i].update();
-      particles[i].draw();
-      if(particles[i].opacity <= 0) {
-        particles.splice(i, 1); i--;
-      }
-    }
-    requestAnimationFrame(animate);
-  }
-  animate();
-
-  // Theme Toggle
-  const themeBtn = document.getElementById('themeBtn');
-  const themeIcon = document.getElementById('themeIcon');
-  themeBtn.addEventListener('click', () => {
-    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-    document.documentElement.setAttribute('data-theme', isDark ? 'light' : 'dark');
-    themeIcon.innerHTML = isDark 
-      ? '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>' 
-      : '<circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>';
-  });
-
-  // YouTube API Integration
+  // 1. YouTube API Logic
   let player;
+  const viz = document.getElementById('viz');
+  const pIcon = document.getElementById('pIcon');
+
   function onYouTubeIframeAPIReady() {
-    player = new YT.Player('youtube-player', {
-      videoId: 'wAukvwLCVbM',
-      playerVars: { 'autoplay': 0, 'loop': 1, 'playlist': 'wAukvwLCVbM' },
-      events: { 'onStateChange': onPlayerStateChange }
+    player = new YT.Player('yt-player', {
+      videoId: 'vv_cQ3H9v2Y',
+      playerVars: { 'loop': 1, 'playlist': 'vv_cQ3H9v2Y' },
+      events: { 'onStateChange': (e) => {
+        if(e.data == 1) { 
+          viz.classList.add('playing');
+          pIcon.innerHTML = '<rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect>';
+        } else { 
+          viz.classList.remove('playing');
+          pIcon.innerHTML = '<polygon points="5 3 19 12 5 21 5 3"></polygon>';
+        }
+      }}
     });
   }
 
-  const playBtn = document.getElementById('playBtn');
-  const playIcon = document.getElementById('playIcon');
-  playBtn.addEventListener('click', () => {
-    if (player.getPlayerState() === 1) { player.pauseVideo(); } else { player.playVideo(); }
+  document.getElementById('playBtn').onclick = () => {
+    player.getPlayerState() == 1 ? player.pauseVideo() : player.playVideo();
+  };
+
+  // 2. Custom Confirmation Logic
+  const modal = document.getElementById('modalOverlay');
+  const mCancel = document.getElementById('mCancel');
+  const mConfirm = document.getElementById('mConfirm');
+  let targetURL = "";
+
+  document.querySelectorAll('.link-trigger').forEach(link => {
+    link.onclick = (e) => {
+      e.preventDefault();
+      targetURL = link.getAttribute('data-url');
+      modal.classList.add('active');
+    };
   });
 
-  function onPlayerStateChange(event) {
-    if (event.data === 1) {
-      playIcon.innerHTML = '<rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect>';
-    } else {
-      playIcon.innerHTML = '<polygon points="5 3 19 12 5 21 5 3"></polygon>';
-    }
-  }
-</script>
-</body>
-</html>
+  mCancel.onclick = () => modal.classList.remove('active');
+  mConfirm.onclick = () => {
+    window.open(targetURL, '_blank');
+    modal.classList.remove('active');
+  };
+
+  // 3. Theme Toggle Logic
+  const themeBtn = document.getElementById('themeToggle');
+  themeBtn.onclick = () => {
+    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+    document.documentElement.setAttribute('data-theme', isDark ? 'light' : 'dark');
+    document.getElementById('themeIcon').innerHTML = isDark 
+      ? '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>'
+      : '<circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line
