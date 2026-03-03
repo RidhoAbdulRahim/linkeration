@@ -4,194 +4,89 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Welcome — Life Linktree Ultimate AI Mode</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <style>
 :root{
-  /* Dark Theme Colors */
-  --bg-dark:#0a0b10; --card-dark:rgba(18,20,28,0.85); --glass-dark:rgba(255,255,255,0.05);
-  --border-dark:rgba(255,255,255,0.08); --text-dark:#f3f4f6; --muted-dark:#8b90a0;
-  --accent-dark:#c6a15b; --accentSoft-dark:#c6a15b33; --blue-dark:#6f8cff;
-
-  /* Light Theme Colors */
-  --bg-light:#f8f8f8; --card-light:rgba(255,255,255,0.95); --glass-light:rgba(0,0,0,0.05);
-  --border-light:rgba(0,0,0,0.08); --text-light:#111; --muted-light:#555;
-  --accent-light:#0071e3; --accentSoft-light:#0071e333; --blue-light:#ff6f61;
-
-  --danger:#ff4d4d;
-  --discord:#5865F2; --youtube:#FF0000; --instagram:#E1306C; --tiktok:#00F2EA; --whatsapp:#25D366; --roblox:#E81C24;
-  --ease:cubic-bezier(.16,1,.3,1);
+--bg-light:#f7f7f8; --bg-dark:#0a0b10; --card-light:rgba(255,255,255,0.9); --card-dark:rgba(18,20,28,0.85);
+--glass:rgba(255,255,255,0.05); --border-light:rgba(0,0,0,0.08); --border-dark:rgba(255,255,255,0.08);
+--text-light:#0a0b10; --text-dark:#f3f4f6; --muted-light:#4a4a4a; --muted-dark:#8b90a0;
+--accent:#c6a15b; --accentSoft:#c6a15b33; --blue:#6f8cff; --danger:#ff4d4d;
+--discord:#5865F2; --youtube:#FF0000; --instagram:#E1306C; --tiktok:#00F2EA; --whatsapp:#25D366; --roblox:#E81C24;
+--ease:cubic-bezier(.16,1,.3,1);
 }
 *{margin:0;padding:0;box-sizing:border-box;}
 html{scroll-behavior:smooth;}
 body{
-  font-family:'Inter',sans-serif;
-  background:var(--bg-light);
-  color:var(--text-light);
-  overflow-x:hidden;
-  cursor:none;
-  transition:.8s var(--ease), background .8s var(--ease), color .8s var(--ease);
+font-family:'Inter',sans-serif;
+background:var(--bg-light);
+color:var(--text-light);
+overflow-x:hidden;
+cursor:none;
+transition:.6s var(--ease);
 }
-body.dark{
-  background:var(--bg-dark);
-  color:var(--text-dark);
-}
+body.dark{background:var(--bg-dark);color:var(--text-dark);}
 canvas.webgl, .shader-overlay{position:fixed;top:0;left:0;width:100%;height:100%;z-index:-30;}
-.background-gradient{
-  position:fixed;inset:0;
-  background:radial-gradient(circle at 20% 30%, var(--blue-light)22, transparent 60%),radial-gradient(circle at 80% 70%, var(--accent-light)22, transparent 60%);
-  filter:blur(120px);
-  animation:ambientFloat 30s ease-in-out infinite alternate;
-  z-index:-15;
-  transition:.8s var(--ease), background .8s var(--ease);
-}
-body.dark .background-gradient{
-  background:radial-gradient(circle at 20% 30%, var(--blue-dark)22, transparent 60%),radial-gradient(circle at 80% 70%, var(--accent-dark)22, transparent 60%);
-}
+.background-gradient{position:fixed;inset:0;filter:blur(120px);z-index:-15;transition:background .8s;}
+.background-gradient.light{background:radial-gradient(circle at 20% 30%, #6f8cff22, transparent 60%),radial-gradient(circle at 80% 70%, #c6a15b22, transparent 60%);}
+.background-gradient.dark{background:radial-gradient(circle at 20% 30%, #FF6F9122, transparent 60%),radial-gradient(circle at 80% 70%, #6FCA8822, transparent 60%);}
 @keyframes ambientFloat{from{transform:translateY(-50px);}to{transform:translateY(50px);}}
-.noise{
-  position:fixed;inset:0;
-  background:url("https://www.transparenttextures.com/patterns/noise.png");
-  opacity:.03;
-  pointer-events:none;
-  z-index:-10;
-}
-.intro{
-  position:fixed;inset:0;
-  display:flex;align-items:center;justify-content:center;flex-direction:column;
-  font-family:'Playfair Display',serif;
-  font-size:48px;letter-spacing:8px;text-align:center;
-  z-index:99999;
-  background:#000; color:#fff;
-  animation:introFade 6s forwards;
-}
+.background-gradient{animation:ambientFloat 30s ease-in-out infinite alternate;}
+.noise{position:fixed;inset:0;background:url("https://www.transparenttextures.com/patterns/noise.png");opacity:.03;pointer-events:none;z-index:-10;}
+.intro{position:fixed;inset:0;background:#fff;display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:48px;letter-spacing:8px;color:#111;z-index:99999;animation:introFade 4s forwards;}
 @keyframes introFade{0%{opacity:1;}85%{opacity:1;}100%{opacity:0;visibility:hidden;}}
-.cursor{
-  position:fixed;width:26px;height:26px;border-radius:50%;
-  background:radial-gradient(circle,var(--accent-light),transparent 70%);
-  pointer-events:none;mix-blend-mode:screen;
-  z-index:9999;
-  transition:.2s, background .8s;
-}
-body.dark .cursor{
-  background:radial-gradient(circle,var(--accent-dark),transparent 70%);
-}
-.cursor-trail{
-  position:fixed;width:14px;height:14px;border-radius:50%;
-  background:var(--accentSoft-light);
-  pointer-events:none;
-  z-index:9998;opacity:.7;
-  transition:.8s;
-}
-body.dark .cursor-trail{
-  background:var(--accentSoft-dark);
-}
-.progress{
-  position:fixed;top:0;left:0;height:3px;
-  background:linear-gradient(90deg,var(--accent-light),var(--blue-light));
-  width:0%;z-index:9998;
-  transition:.8s;
-}
-body.dark .progress{
-  background:linear-gradient(90deg,var(--accent-dark),var(--blue-dark));
-}
-.container{max-width:960px;margin:auto;padding:200px 32px;position:relative;z-index:2;}
-.hero{text-align:center;margin-bottom:200px;}
-.profile{
-  width:180px;height:180px;border-radius:50%;object-fit:cover;
-  border:2px solid var(--border-light);
-  animation:breathe 6s infinite ease-in-out;
-  transition:.8s;
-}
-body.dark .profile{border-color:var(--border-dark);}
+.cursor{position:fixed;width:26px;height:26px;border-radius:50%;background:radial-gradient(circle,var(--accent),transparent 70%);pointer-events:none;mix-blend-mode:screen;z-index:9999;transition:width .2s,height .2s,transform .1s linear;}
+.cursor-trail{position:fixed;width:14px;height:14px;border-radius:50%;background:var(--accentSoft);pointer-events:none;z-index:9998;opacity:.7;}
+.progress{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--accent),var(--blue));width:0%;z-index:9998;transition:width .3s;}
+.container{max-width:920px;margin:auto;padding:180px 32px;position:relative;z-index:2;}
+.hero{text-align:center;margin-bottom:180px;}
+.profile{width:180px;height:180px;border-radius:50%;object-fit:cover;border:2px solid var(--border-light);animation:breathe 6s infinite ease-in-out;transition:.6s var(--ease);}
+body.dark .profile{border:2px solid var(--border-dark);}
 @keyframes breathe{0%,100%{transform:scale(1);}50%{transform:scale(1.06);}}
-h1{font-family:'Playfair Display',serif;font-size:72px;margin-top:50px;transition:.8s;}
-.username{color:var(--muted-light);margin:16px 0 50px;font-size:20px;transition:.8s;}
+h1{font-family:'Playfair Display',serif;font-size:64px;margin-top:50px;transition:letter-spacing .6s var(--ease);}
+.username{color:var(--muted-light);margin:16px 0 50px;font-size:18px;}
 body.dark .username{color:var(--muted-dark);}
-.tagline{font-family:'Playfair Display',serif;font-size:28px;min-height:90px;opacity:.95;transition:.8s;}
-.links{display:flex;flex-direction:column;gap:42px;}
-.link{
-  padding:40px 44px;border-radius:36px;background:var(--card-light);
-  backdrop-filter:blur(30px);border:1px solid var(--border-light);
-  display:flex;align-items:center;justify-content:space-between;
-  text-decoration:none;color:var(--text-light);
-  font-size:20px;font-weight:500;transition:.5s var(--ease), background .8s, color .8s, border .8s;
-  transform-style:preserve-3d;position:relative;overflow:hidden;
-}
-body.dark .link{
-  background:var(--card-dark);
-  border:1px solid var(--border-dark);
-  color:var(--text-dark);
-}
-.link::before{
-  content:"";position:absolute;inset:0;
-  background:linear-gradient(120deg,transparent,rgba(255,255,255,.08),transparent);
-  transform:translateX(-100%);
-  transition:1s var(--ease);
-}
+.tagline{font-family:'Playfair Display',serif;font-size:28px;min-height:90px;opacity:.9;transition:opacity .6s;}
+.links{display:flex;flex-direction:column;gap:38px;}
+.link{padding:38px 40px;border-radius:32px;background:var(--card-light);backdrop-filter:blur(25px);border:1px solid var(--border-light);display:flex;align-items:center;justify-content:space-between;text-decoration:none;color:var(--text-light);font-size:19px;transition:.5s var(--ease);transform-style:preserve-3d;position:relative;overflow:hidden;}
+body.dark .link{background:var(--card-dark);border:1px solid var(--border-dark);color:var(--text-dark);}
+.link::before{content:"";position:absolute;inset:0;background:linear-gradient(120deg,transparent,rgba(255,255,255,.08),transparent);transform:translateX(-100%);transition:1s var(--ease);}
 .link:hover::before{transform:translateX(100%);}
-.link-left{display:flex;align-items:center;gap:22px;}
-.icon-bubble{
-  width:60px;height:60px;border-radius:20px;
-  display:flex;align-items:center;justify-content:center;
-  background:var(--glass-light);border:1px solid var(--border-light);
-  transition:.5s var(--ease), background .8s, border .8s;
-}
-body.dark .icon-bubble{
-  background:var(--glass-dark);border:1px solid var(--border-dark);
-}
+.link-left{display:flex;align-items:center;gap:20px;}
+.icon-bubble{width:56px;height:56px;border-radius:18px;display:flex;align-items:center;justify-content:center;background:var(--glass);border:1px solid var(--border-light);transition:.5s var(--ease);}
+body.dark .icon-bubble{border:1px solid var(--border-dark);}
 .icon-bubble img{width:28px;height:28px;}
-.link span.motive{font-size:13px;color:var(--muted-light);margin-left:8px;font-style:italic;opacity:.8;transition:.8s;}
+.link span.motive{font-size:12px;color:var(--muted-light);margin-left:6px;font-style:italic;}
 body.dark .link span.motive{color:var(--muted-dark);}
-.link:hover{transform:translateY(-18px) rotateX(5deg) rotateY(5deg);box-shadow:0 50px 180px rgba(0,0,0,.45);}
-footer{text-align:center;margin-top:280px;color:var(--muted-light);font-size:15px;transition:.8s;}
+.link:hover{transform:translateY(-16px) rotateX(5deg) rotateY(5deg);box-shadow:0 48px 160px rgba(0,0,0,.45);}
+footer{text-align:center;margin-top:260px;color:var(--muted-light);font-size:14px;}
 body.dark footer{color:var(--muted-dark);}
-.philosophy{
-  position:fixed;inset:0;background:rgba(0,0,0,.96);
-  display:flex;align-items:center;justify-content:center;flex-direction:column;
-  text-align:center;padding:60px;z-index:99999;opacity:0;pointer-events:none;
-  transition:.6s var(--ease);
-}
+.philosophy{position:fixed;inset:0;background:rgba(0,0,0,.96);display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center;padding:60px;z-index:99999;opacity:0;pointer-events:none;transition:.6s var(--ease);}
 .philosophy.active{opacity:1;pointer-events:auto;}
-.philosophy h2{font-family:'Playfair Display',serif;font-size:48px;margin-bottom:40px;}
-.philosophy p{max-width:850px;line-height:2;color:#bbb;font-size:19px;}
-.toggle{
-  position:fixed;top:24px;right:24px;padding:14px 20px;font-size:13px;
-  letter-spacing:2px;border-radius:24px;border:1px solid var(--border-light);
-  background:var(--card-light);cursor:pointer;z-index:9999;
-  transition:.8s, border .8s, background .8s;
-}
-body.dark .toggle{
-  border:1px solid var(--border-dark);
-  background:var(--card-dark);
-}
-@media(max-width:768px){
-  .hero h1{font-size:52px;}
-  .tagline{font-size:22px;}
-  .link{padding:30px 20px;font-size:17px;}
-  .icon-bubble{width:50px;height:50px;}
-  .icon-bubble img{width:24px;height:24px;}
-}
+.philosophy h2{font-family:'Playfair Display',serif;font-size:46px;margin-bottom:40px;}
+.philosophy p{max-width:800px;line-height:2;color:#bbb;font-size:18px;}
+.toggle{position:fixed;top:24px;right:24px;padding:12px 18px;font-size:12px;letter-spacing:2px;border-radius:22px;border:1px solid var(--border-light);background:var(--card-light);cursor:pointer;z-index:9999;transition:.5s var(--ease);}
+body.dark .toggle{border:1px solid var(--border-dark);background:var(--card-dark);}
+@media(max-width:768px){.hero h1{font-size:48px;}.tagline{font-size:20px;}.link{padding:26px 20px;font-size:16px;}.icon-bubble{width:48px;height:48px;}.icon-bubble img{width:24px;height:24px;}}
 </style>
 </head>
-<body>
+<body class="light">
 
-<div class="intro">Welcome</div>
+<div class="intro">WELCOME</div>
 <canvas class="webgl"></canvas>
-<div class="background-gradient"></div>
+<div class="background-gradient light"></div>
 <div class="noise"></div>
 <canvas class="shader-overlay"></canvas>
 <div class="progress"></div>
 <div class="cursor"></div>
-<div class="cursor-trail"></div>
 <div class="toggle" onclick="toggleTheme()">THEME</div>
 
 <div class="philosophy" id="philosophy">
 <h2>Expressive Discipline</h2>
 <p>
-Clarity comes from discipline. Identity is defined by expression. <br>
-Depth emerges through conscious repetition. <br>
-Actions create experience; experience creates life.
+Clarity emerges from discipline. Identity shines through expression. <br>
+Depth develops with repetition and reflection. <br>
+Actions create experiences; experiences shape life.
 </p>
 </div>
 
@@ -204,56 +99,32 @@ Actions create experience; experience creates life.
 </div>
 
 <div class="links">
-<a href="https://discord.com/users/ridhogeprek" class="link">
-<div class="link-left">
-<div class="icon-bubble"><img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/discord.svg"></div>
-<span>Discord</span><span class="motive">Gather your tribe and chat</span>
-</div></a>
+<a href="https://discord.com/users/ridhogeprek" class="link" style="--accentColor:var(--discord)">
+<div class="link-left"><div class="icon-bubble"><img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/discord.svg"></div><span>Discord</span><span class="motive">Gather your community</span></div></a>
 
-<a href="https://wa.me/6287753475412" class="link">
-<div class="link-left">
-<div class="icon-bubble"><img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/whatsapp.svg"></div>
-<span>WhatsApp</span><span class="motive">Stay connected instantly</span>
-</div></a>
+<a href="https://wa.me/6287753475412" class="link" style="--accentColor:var(--whatsapp)">
+<div class="link-left"><div class="icon-bubble"><img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/whatsapp.svg"></div><span>WhatsApp</span><span class="motive">Stay connected</span></div></a>
 
-<a href="https://youtube.com/@y4timz" class="link">
-<div class="link-left">
-<div class="icon-bubble"><img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/youtube.svg"></div>
-<span>YouTube</span><span class="motive">Learn, watch, and share</span>
-</div></a>
+<a href="https://youtube.com/@y4timz" class="link" style="--accentColor:var(--youtube)">
+<div class="link-left"><div class="icon-bubble"><img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/youtube.svg"></div><span>YouTube</span><span class="motive">Learn and share</span></div></a>
 
-<a href="https://instagram.com/ridhogeprek" class="link">
-<div class="link-left">
-<div class="icon-bubble"><img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/instagram.svg"></div>
-<span>Instagram</span><span class="motive">Showcase your style</span>
-</div></a>
+<a href="https://instagram.com/ridhogeprek" class="link" style="--accentColor:var(--instagram)">
+<div class="link-left"><div class="icon-bubble"><img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/instagram.svg"></div><span>Instagram</span><span class="motive">Showcase identity</span></div></a>
 
-<a href="https://tiktok.com/@idogeprek" class="link">
-<div class="link-left">
-<div class="icon-bubble"><img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/tiktok.svg"></div>
-<span>TikTok</span><span class="motive">Express yourself creatively</span>
-</div></a>
+<a href="https://tiktok.com/@idogeprek" class="link" style="--accentColor:var(--tiktok)">
+<div class="link-left"><div class="icon-bubble"><img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/tiktok.svg"></div><span>TikTok</span><span class="motive">Express creatively</span></div></a>
 
-<a href="https://www.roblox.com/search/users?keyword=y4timz" class="link">
-<div class="link-left">
-<div class="icon-bubble"><img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/roblox.svg"></div>
-<span>Roblox</span><span class="motive">Play, build, explore</span>
-</div></a>
+<a href="https://www.roblox.com/search/users?keyword=y4timz" class="link" style="--accentColor:var(--roblox)">
+<div class="link-left"><div class="icon-bubble"><img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/roblox.svg"></div><span>Roblox</span><span class="motive">Play, build, explore</span></div></a>
+
 </div>
-
 <footer>© <script>document.write(new Date().getFullYear())</script> Welcome — Expressive Discipline</footer>
 </div>
 
 <script>
 // Cursor
 const cursor=document.querySelector(".cursor");
-const trail=document.querySelector(".cursor-trail");
-document.addEventListener("mousemove",e=>{
-  cursor.style.left=e.clientX+"px";
-  cursor.style.top=e.clientY+"px";
-  trail.style.left=e.clientX-7+"px";
-  trail.style.top=e.clientY-7+"px";
-});
+document.addEventListener("mousemove",e=>{cursor.style.left=e.clientX+"px";cursor.style.top=e.clientY+"px";});
 
 // Scroll progress
 window.addEventListener("scroll",()=>{
@@ -273,26 +144,26 @@ const quotes=[
 let qi=0;
 const quote=document.getElementById("quote");
 quote.innerText=quotes[0];
-setInterval(()=>{qi=(qi+1)%quotes.length;quote.innerText=quotes[qi];},5000);
+setInterval(()=>{qi=(qi+1)%quotes.length;quote.innerText=quotes[qi];},4500);
 
 // Name animation
 const name=document.getElementById("name");
-setInterval(()=>{name.style.letterSpacing=Math.random()*6+"px";},4000);
+setInterval(()=>{name.style.letterSpacing=Math.random()*8+"px";},3000);
 
 // Theme toggle
-if(!localStorage.getItem("theme")){localStorage.setItem("theme","light");}
-if(localStorage.getItem("theme")==="dark"){document.body.classList.add("dark");}
 function toggleTheme(){
-  document.body.classList.toggle("dark");
-  localStorage.setItem("theme",document.body.classList.contains("dark")?"dark":"light");
+document.body.classList.toggle("dark");
+document.body.classList.toggle("light");
+document.querySelector(".background-gradient").classList.toggle("dark");
+document.querySelector(".background-gradient").classList.toggle("light");
 }
 
-// Easter egg: philosophy modal
+// Easter egg
 const philosophy=document.getElementById("philosophy");
 document.addEventListener("keydown",e=>{if(e.key==="p"){philosophy.classList.toggle("active");}});
-document.addEventListener("touchend",function(e){if(e.target.classList.contains('toggle')){philosophy.classList.toggle("active");}});
+document.addEventListener("touchend",e=>{if(e.target.classList.contains('toggle')){philosophy.classList.toggle("active");}});
 
-// Three.js WebGL ambient 3D
+// Three.js WebGL
 const scene=new THREE.Scene();
 const camera=new THREE.PerspectiveCamera(75,window.innerWidth/window.innerHeight,0.1,1000);
 const renderer=new THREE.WebGLRenderer({canvas:document.querySelector(".webgl"),alpha:true});
@@ -306,9 +177,9 @@ camera.position.z=12;
 function animate(){requestAnimationFrame(animate);mesh.rotation.x+=0.002;mesh.rotation.y+=0.003;renderer.render(scene,camera);}
 animate();
 document.addEventListener("mousemove",e=>{
-  camera.position.x=(e.clientX/window.innerWidth-0.5)*3;
-  camera.position.y=-(e.clientY/window.innerHeight-0.5)*3;
-  camera.lookAt(scene.position);
+camera.position.x=(e.clientX/window.innerWidth-0.5)*3;
+camera.position.y=-(e.clientY/window.innerHeight-0.5)*3;
+camera.lookAt(scene.position);
 });
 
 // Shader overlay particles
@@ -317,19 +188,9 @@ const sctx=shaderCanvas.getContext("2d");
 shaderCanvas.width=window.innerWidth;
 shaderCanvas.height=window.innerHeight;
 const particles=[];
-for(let i=0;i<350;i++){particles.push({x:Math.random()*window.innerWidth,y:Math.random()*window.innerHeight,radius:Math.random()*2+0.5,speed:Math.random()*0.6+0.1,color:['#5865F2','#FF0000','#E1306C','#00F2EA','#25D366','#E81C24'][Math.floor(Math.random()*6)]});}
-function shaderAnimate(){
-  sctx.clearRect(0,0,shaderCanvas.width,shaderCanvas.height);
-  for(let p of particles){
-    p.y-=p.speed;
-    if(p.y<0)p.y=shaderCanvas.height;
-    sctx.beginPath(); sctx.arc(p.x,p.y,p.radius,0,Math.PI*2);
-    sctx.fillStyle=p.color; sctx.fill();
-  }
-  requestAnimationFrame(shaderAnimate);
-}
+for(let i=0;i<300;i++){particles.push({x:Math.random()*window.innerWidth,y:Math.random()*window.innerHeight,radius:Math.random()*2+0.5,speed:Math.random()*0.5+0.1,color:['#5865F2','#FF0000','#E1306C','#00F2EA','#25D366','#E81C24'][Math.floor(Math.random()*6)]});}
+function shaderAnimate(){sctx.clearRect(0,0,shaderCanvas.width,shaderCanvas.height);for(let p of particles){p.y-=p.speed;if(p.y<0)p.y=shaderCanvas.height;sctx.beginPath();sctx.arc(p.x,p.y,p.radius,0,Math.PI*2);sctx.fillStyle=p.color;sctx.fill();}requestAnimationFrame(shaderAnimate);}
 shaderAnimate();
 </script>
-
 </body>
 </html>
