@@ -3,27 +3,29 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ridho — Expressive Discipline</title>
+<title>Ridho — Life Linktree Ultimate</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-
 <style>
 :root{
---bg:#0a0b10; --card:rgba(18,20,28,0.7); --glass:rgba(255,255,255,0.06);
+--bg:#0a0b10; --card:rgba(18,20,28,0.85); --glass:rgba(255,255,255,0.05);
 --border:rgba(255,255,255,0.08); --text:#f3f4f6; --muted:#8b90a0;
 --accent:#c6a15b; --accentSoft:#c6a15b33; --blue:#6f8cff; --danger:#ff4d4d;
+--discord:#5865F2; --youtube:#FF0000; --instagram:#E1306C; --tiktok:#00F2EA; --whatsapp:#25D366; --roblox:#E81C24;
 --ease:cubic-bezier(.16,1,.3,1);
-}
-.light{
---bg:#f5f6f8; --card:rgba(255,255,255,0.7); --glass:rgba(0,0,0,0.05);
---border:rgba(0,0,0,0.08); --text:#111; --muted:#666;
---accent:#9a6a2b; --accentSoft:#9a6a2b33; --blue:#4f6cff; --danger:#e23;
 }
 *{margin:0;padding:0;box-sizing:border-box;}
 html{scroll-behavior:smooth;}
-body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;cursor:none;transition:.6s var(--ease);}
+body{
+font-family:'Inter',sans-serif;
+background:var(--bg);
+color:var(--text);
+overflow-x:hidden;
+cursor:none;
+transition:.6s var(--ease);
+}
 canvas.webgl, .shader-overlay{position:fixed;top:0;left:0;width:100%;height:100%;z-index:-30;}
-.background-gradient{position:fixed;inset:0;background:radial-gradient(circle at 20% 30%, #6f8cff22, transparent 60%),radial-gradient(circle at 80% 70%, #c6a15b22, transparent 60%);filter:blur(120px);animation:ambientFloat 25s ease-in-out infinite alternate;z-index:-15;}
+.background-gradient{position:fixed;inset:0;background:radial-gradient(circle at 20% 30%, #6f8cff22, transparent 60%),radial-gradient(circle at 80% 70%, #c6a15b22, transparent 60%);filter:blur(120px);animation:ambientFloat 30s ease-in-out infinite alternate;z-index:-15;}
 @keyframes ambientFloat{from{transform:translateY(-50px);}to{transform:translateY(50px);}}
 .noise{position:fixed;inset:0;background:url("https://www.transparenttextures.com/patterns/noise.png");opacity:.03;pointer-events:none;z-index:-10;}
 .intro{position:fixed;inset:0;background:#000;display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:48px;letter-spacing:8px;z-index:99999;animation:introFade 4s forwards;}
@@ -32,26 +34,21 @@ canvas.webgl, .shader-overlay{position:fixed;top:0;left:0;width:100%;height:100%
 .progress{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--accent),var(--blue));width:0%;z-index:9998;}
 .container{max-width:920px;margin:auto;padding:180px 32px;position:relative;z-index:2;}
 .hero{text-align:center;margin-bottom:180px;}
-.profile{width:170px;height:170px;border-radius:50%;object-fit:cover;border:2px solid var(--border);animation:breathe 6s infinite ease-in-out;transition:.6s var(--ease);}
-@keyframes breathe{0%,100%{transform:scale(1);}50%{transform:scale(1.05);}}
+.profile{width:180px;height:180px;border-radius:50%;object-fit:cover;border:2px solid var(--border);animation:breathe 6s infinite ease-in-out;transition:.6s var(--ease);}
+@keyframes breathe{0%,100%{transform:scale(1);}50%{transform:scale(1.06);}}
 h1{font-family:'Playfair Display',serif;font-size:64px;margin-top:50px;transition:letter-spacing .6s var(--ease);}
 .username{color:var(--muted);margin:16px 0 50px;font-size:18px;}
 .tagline{font-family:'Playfair Display',serif;font-size:28px;min-height:90px;opacity:.9;transition:opacity .6s;}
-.links{display:flex;flex-direction:column;gap:34px;}
-.link{padding:34px 38px;border-radius:30px;background:var(--card);backdrop-filter:blur(25px);border:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;text-decoration:none;color:var(--text);font-size:19px;transition:.5s var(--ease);transform-style:preserve-3d;position:relative;overflow:hidden;}
+.links{display:flex;flex-direction:column;gap:38px;}
+.link{padding:38px 40px;border-radius:32px;background:var(--card);backdrop-filter:blur(25px);border:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;text-decoration:none;color:var(--text);font-size:19px;transition:.5s var(--ease);transform-style:preserve-3d;position:relative;overflow:hidden;}
 .link::before{content:"";position:absolute;inset:0;background:linear-gradient(120deg,transparent,rgba(255,255,255,.08),transparent);transform:translateX(-100%);transition:1s var(--ease);}
 .link:hover::before{transform:translateX(100%);}
 .link-left{display:flex;align-items:center;gap:20px;}
-.icon-bubble{width:52px;height:52px;border-radius:18px;display:flex;align-items:center;justify-content:center;background:var(--glass);border:1px solid var(--border);transition:.5s var(--ease);}
-.icon-bubble img{width:26px;height:26px;}
-.link:hover{transform:translateY(-14px) rotateX(5deg) rotateY(5deg);box-shadow:0 40px 140px rgba(0,0,0,.4);}
-.discord:hover{box-shadow:0 40px 140px rgba(88,101,242,.5);}
-.whatsapp:hover{box-shadow:0 40px 140px rgba(37,211,102,.5);}
-.youtube:hover{box-shadow:0 40px 140px rgba(255,0,0,.5);}
-.instagram:hover{box-shadow:0 40px 140px rgba(225,48,108,.5);}
-.tiktok:hover{box-shadow:0 40px 140px rgba(0,242,234,.5);}
-.roblox:hover{box-shadow:0 40px 140px rgba(232,28,36,.5);}
-footer{text-align:center;margin-top:240px;color:var(--muted);font-size:14px;}
+.icon-bubble{width:56px;height:56px;border-radius:18px;display:flex;align-items:center;justify-content:center;background:var(--glass);border:1px solid var(--border);transition:.5s var(--ease);}
+.icon-bubble img{width:28px;height:28px;}
+.link span.motive{font-size:12px;color:var(--muted);margin-left:6px;font-style:italic;}
+.link:hover{transform:translateY(-16px) rotateX(5deg) rotateY(5deg);box-shadow:0 48px 160px rgba(0,0,0,.45);}
+footer{text-align:center;margin-top:260px;color:var(--muted);font-size:14px;}
 .philosophy{position:fixed;inset:0;background:rgba(0,0,0,.96);display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center;padding:60px;z-index:99999;opacity:0;pointer-events:none;transition:.6s var(--ease);}
 .philosophy.active{opacity:1;pointer-events:auto;}
 .philosophy h2{font-family:'Playfair Display',serif;font-size:46px;margin-bottom:40px;}
@@ -73,12 +70,9 @@ footer{text-align:center;margin-top:240px;color:var(--muted);font-size:14px;}
 <div class="philosophy" id="philosophy">
 <h2>Expressive Discipline</h2>
 <p>
-Discipline is not restriction. It is structure.<br>
-Structure creates clarity.<br>
-Clarity enables freedom.<br>
-Freedom allows expression.<br>
-Expression defines identity.<br>
-Identity compounds through repetition.
+Discipline structures clarity. Expression defines identity. <br>
+Depth emerges through conscious repetition. <br>
+Action composes experience; experience composes life.
 </p>
 </div>
 
@@ -92,18 +86,41 @@ Identity compounds through repetition.
 
 <div class="links">
 
-<a href="https://discord.com/users/ridhogeprek" class="link discord">
-<div class="link-left"><div class="icon-bubble"><img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/discord.svg"></div><span>Discord</span></div></a>
-<a href="https://wa.me/6287753475412" class="link whatsapp">
-<div class="link-left"><div class="icon-bubble"><img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/whatsapp.svg"></div><span>WhatsApp</span></div></a>
-<a href="https://youtube.com/@y4timz" class="link youtube">
-<div class="link-left"><div class="icon-bubble"><img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/youtube.svg"></div><span>YouTube</span></div></a>
-<a href="https://instagram.com/ridhogeprek" class="link instagram">
-<div class="link-left"><div class="icon-bubble"><img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/instagram.svg"></div><span>Instagram</span></div></a>
-<a href="https://tiktok.com/@idogeprek" class="link tiktok">
-<div class="link-left"><div class="icon-bubble"><img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/tiktok.svg"></div><span>TikTok</span></div></a>
-<a href="https://www.roblox.com/search/users?keyword=y4timz" class="link roblox">
-<div class="link-left"><div class="icon-bubble"><img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/roblox.svg"></div><span>Roblox</span></div></a>
+<a href="https://discord.com/users/ridhogeprek" class="link" style="--accentColor:var(--discord)">
+<div class="link-left">
+<div class="icon-bubble"><img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/discord.svg"></div>
+<span>Discord</span><span class="motive">Gather your tribe</span>
+</div></a>
+
+<a href="https://wa.me/6287753475412" class="link" style="--accentColor:var(--whatsapp)">
+<div class="link-left">
+<div class="icon-bubble"><img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/whatsapp.svg"></div>
+<span>WhatsApp</span><span class="motive">Stay connected</span>
+</div></a>
+
+<a href="https://youtube.com/@y4timz" class="link" style="--accentColor:var(--youtube)">
+<div class="link-left">
+<div class="icon-bubble"><img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/youtube.svg"></div>
+<span>YouTube</span><span class="motive">Learn & share</span>
+</div></a>
+
+<a href="https://instagram.com/ridhogeprek" class="link" style="--accentColor:var(--instagram)">
+<div class="link-left">
+<div class="icon-bubble"><img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/instagram.svg"></div>
+<span>Instagram</span><span class="motive">Showcase identity</span>
+</div></a>
+
+<a href="https://tiktok.com/@idogeprek" class="link" style="--accentColor:var(--tiktok)">
+<div class="link-left">
+<div class="icon-bubble"><img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/tiktok.svg"></div>
+<span>TikTok</span><span class="motive">Express freely</span>
+</div></a>
+
+<a href="https://www.roblox.com/search/users?keyword=y4timz" class="link" style="--accentColor:var(--roblox)">
+<div class="link-left">
+<div class="icon-bubble"><img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/roblox.svg"></div>
+<span>Roblox</span><span class="motive">Play, build, explore</span>
+</div></a>
 
 </div>
 <footer>© <script>document.write(new Date().getFullYear())</script> Ridho — Expressive Discipline</footer>
@@ -114,7 +131,7 @@ Identity compounds through repetition.
 const cursor=document.querySelector(".cursor");
 document.addEventListener("mousemove",e=>{cursor.style.left=e.clientX+"px";cursor.style.top=e.clientY+"px";});
 
-// Progress Bar
+// Scroll progress
 window.addEventListener("scroll",()=>{
 const winScroll=document.documentElement.scrollTop;
 const height=document.documentElement.scrollHeight-document.documentElement.clientHeight;
@@ -122,7 +139,13 @@ document.querySelector(".progress").style.width=(winScroll/height)*100+"%";
 });
 
 // Quotes
-const quotes=["Discipline creates freedom.","Silence sharpens identity.","Consistency compounds power.","Expression requires structure.","Depth emerges through repetition."];
+const quotes=[
+"Discipline creates freedom.",
+"Silence sharpens identity.",
+"Consistency compounds power.",
+"Expression requires structure.",
+"Depth emerges through repetition."
+];
 let qi=0;
 const quote=document.getElementById("quote");
 quote.innerText=quotes[0];
@@ -160,14 +183,14 @@ camera.position.y=-(e.clientY/window.innerHeight-0.5)*3;
 camera.lookAt(scene.position);
 });
 
-// Shader overlay + particles
+// Shader overlay particles
 const shaderCanvas=document.querySelector(".shader-overlay");
 const sctx=shaderCanvas.getContext("2d");
 shaderCanvas.width=window.innerWidth;
 shaderCanvas.height=window.innerHeight;
 const particles=[];
-for(let i=0;i<200;i++){particles.push({x:Math.random()*window.innerWidth,y:Math.random()*window.innerHeight,radius:Math.random()*2+0.5,speed:Math.random()*0.4+0.1})}
-function shaderAnimate(){sctx.clearRect(0,0,shaderCanvas.width,shaderCanvas.height);for(let p of particles){p.y-=p.speed;if(p.y<0)p.y=shaderCanvas.height;sctx.beginPath();sctx.arc(p.x,p.y,p.radius,0,Math.PI*2);sctx.fillStyle=`rgba(198,161,91,0.3)`;sctx.fill();}requestAnimationFrame(shaderAnimate);}
+for(let i=0;i<250;i++){particles.push({x:Math.random()*window.innerWidth,y:Math.random()*window.innerHeight,radius:Math.random()*2+0.5,speed:Math.random()*0.5+0.1,color:['#5865F2','#FF0000','#E1306C','#00F2EA','#25D366','#E81C24'][Math.floor(Math.random()*6)]});}
+function shaderAnimate(){sctx.clearRect(0,0,shaderCanvas.width,shaderCanvas.height);for(let p of particles){p.y-=p.speed;if(p.y<0)p.y=shaderCanvas.height;sctx.beginPath();sctx.arc(p.x,p.y,p.radius,0,Math.PI*2);sctx.fillStyle=p.color;sctx.fill();}requestAnimationFrame(shaderAnimate);}
 shaderAnimate();
 </script>
 
