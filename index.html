@@ -4,355 +4,68 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Ridho — Expressive Discipline</title>
-
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
 <style>
-
-/* ======================================================
-   GLOBAL FOUNDATION
-====================================================== */
-
 :root{
---bg:#0a0b10;
---card:rgba(18,20,28,0.7);
---glass:rgba(255,255,255,0.06);
---border:rgba(255,255,255,0.08);
---text:#f3f4f6;
---muted:#8b90a0;
---accent:#c6a15b;
---accentSoft:#c6a15b33;
---blue:#6f8cff;
---danger:#ff4d4d;
+--bg:#0a0b10; --card:rgba(18,20,28,0.7); --glass:rgba(255,255,255,0.06);
+--border:rgba(255,255,255,0.08); --text:#f3f4f6; --muted:#8b90a0;
+--accent:#c6a15b; --accentSoft:#c6a15b33; --blue:#6f8cff; --danger:#ff4d4d;
 --ease:cubic-bezier(.16,1,.3,1);
 }
-
 .light{
---bg:#f5f6f8;
---card:rgba(255,255,255,0.7);
---glass:rgba(0,0,0,0.05);
---border:rgba(0,0,0,0.08);
---text:#111;
---muted:#666;
---accent:#9a6a2b;
---accentSoft:#9a6a2b33;
---blue:#4f6cff;
---danger:#e23;
+--bg:#f5f6f8; --card:rgba(255,255,255,0.7); --glass:rgba(0,0,0,0.05);
+--border:rgba(0,0,0,0.08); --text:#111; --muted:#666;
+--accent:#9a6a2b; --accentSoft:#9a6a2b33; --blue:#4f6cff; --danger:#e23;
 }
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-}
-
-html{
-scroll-behavior:smooth;
-}
-
-body{
-font-family:'Inter',sans-serif;
-background:var(--bg);
-color:var(--text);
-overflow-x:hidden;
-cursor:none;
-transition:.6s var(--ease);
-}
-
-/* ======================================================
-   LAYER SYSTEM
-====================================================== */
-
-canvas.webgl{
-position:fixed;
-top:0;
-left:0;
-z-index:-20;
-}
-
-.background-gradient{
-position:fixed;
-inset:0;
-background:
-radial-gradient(circle at 20% 30%, #6f8cff22, transparent 60%),
-radial-gradient(circle at 80% 70%, #c6a15b22, transparent 60%);
-filter:blur(120px);
-animation:ambientFloat 25s ease-in-out infinite alternate;
-z-index:-15;
-}
-
-@keyframes ambientFloat{
-from{transform:translateY(-50px);}
-to{transform:translateY(50px);}
-}
-
-.noise{
-position:fixed;
-inset:0;
-background:url("https://www.transparenttextures.com/patterns/noise.png");
-opacity:.03;
-pointer-events:none;
-z-index:-10;
-}
-
-/* ======================================================
-   INTRO SEQUENCE
-====================================================== */
-
-.intro{
-position:fixed;
-inset:0;
-background:#000;
-display:flex;
-align-items:center;
-justify-content:center;
-font-family:'Playfair Display',serif;
-font-size:48px;
-letter-spacing:8px;
-z-index:99999;
-animation:introFade 4s forwards;
-}
-
-@keyframes introFade{
-0%{opacity:1;}
-85%{opacity:1;}
-100%{opacity:0;visibility:hidden;}
-}
-
-/* ======================================================
-   CURSOR ENGINE
-====================================================== */
-
-.cursor{
-position:fixed;
-width:26px;
-height:26px;
-border-radius:50%;
-background:radial-gradient(circle,var(--accent),transparent 70%);
-pointer-events:none;
-mix-blend-mode:screen;
-z-index:9999;
-transition:width .2s,height .2s,transform .1s linear;
-}
-
-/* ======================================================
-   PROGRESS BAR
-====================================================== */
-
-.progress{
-position:fixed;
-top:0;
-left:0;
-height:3px;
-background:linear-gradient(90deg,var(--accent),var(--blue));
-width:0%;
-z-index:9998;
-}
-
-/* ======================================================
-   MAIN STRUCTURE
-====================================================== */
-
-.container{
-max-width:920px;
-margin:auto;
-padding:180px 32px;
-position:relative;
-z-index:2;
-}
-
-.hero{
-text-align:center;
-margin-bottom:180px;
-}
-
-.profile{
-width:170px;
-height:170px;
-border-radius:50%;
-object-fit:cover;
-border:2px solid var(--border);
-animation:breathe 6s infinite ease-in-out;
-transition:.6s var(--ease);
-}
-
-@keyframes breathe{
-0%,100%{transform:scale(1);}
-50%{transform:scale(1.05);}
-}
-
-h1{
-font-family:'Playfair Display',serif;
-font-size:64px;
-margin-top:50px;
-transition:letter-spacing .6s var(--ease);
-}
-
-.username{
-color:var(--muted);
-margin:16px 0 50px;
-font-size:18px;
-}
-
-.tagline{
-font-family:'Playfair Display',serif;
-font-size:28px;
-min-height:90px;
-opacity:.9;
-}
-
-/* ======================================================
-   LINK SYSTEM
-====================================================== */
-
-.links{
-display:flex;
-flex-direction:column;
-gap:34px;
-}
-
-.link{
-padding:34px 38px;
-border-radius:30px;
-background:var(--card);
-backdrop-filter:blur(25px);
-border:1px solid var(--border);
-display:flex;
-align-items:center;
-justify-content:space-between;
-text-decoration:none;
-color:var(--text);
-font-size:19px;
-transition:.5s var(--ease);
-transform-style:preserve-3d;
-position:relative;
-overflow:hidden;
-}
-
-.link::before{
-content:"";
-position:absolute;
-inset:0;
-background:linear-gradient(120deg,transparent,rgba(255,255,255,.08),transparent);
-transform:translateX(-100%);
-transition:1s var(--ease);
-}
-
-.link:hover::before{
-transform:translateX(100%);
-}
-
-.link-left{
-display:flex;
-align-items:center;
-gap:20px;
-}
-
-.icon-bubble{
-width:52px;
-height:52px;
-border-radius:18px;
-display:flex;
-align-items:center;
-justify-content:center;
-background:var(--glass);
-border:1px solid var(--border);
-transition:.5s var(--ease);
-}
-
-.icon-bubble img{
-width:26px;
-height:26px;
-}
-
-.link:hover{
-transform:translateY(-14px) rotateX(5deg) rotateY(5deg);
-box-shadow:0 40px 140px rgba(0,0,0,.4);
-}
-
-/* brand glow */
-
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;cursor:none;transition:.6s var(--ease);}
+canvas.webgl, .shader-overlay{position:fixed;top:0;left:0;width:100%;height:100%;z-index:-30;}
+.background-gradient{position:fixed;inset:0;background:radial-gradient(circle at 20% 30%, #6f8cff22, transparent 60%),radial-gradient(circle at 80% 70%, #c6a15b22, transparent 60%);filter:blur(120px);animation:ambientFloat 25s ease-in-out infinite alternate;z-index:-15;}
+@keyframes ambientFloat{from{transform:translateY(-50px);}to{transform:translateY(50px);}}
+.noise{position:fixed;inset:0;background:url("https://www.transparenttextures.com/patterns/noise.png");opacity:.03;pointer-events:none;z-index:-10;}
+.intro{position:fixed;inset:0;background:#000;display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:48px;letter-spacing:8px;z-index:99999;animation:introFade 4s forwards;}
+@keyframes introFade{0%{opacity:1;}85%{opacity:1;}100%{opacity:0;visibility:hidden;}}
+.cursor{position:fixed;width:26px;height:26px;border-radius:50%;background:radial-gradient(circle,var(--accent),transparent 70%);pointer-events:none;mix-blend-mode:screen;z-index:9999;transition:width .2s,height .2s,transform .1s linear;}
+.progress{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--accent),var(--blue));width:0%;z-index:9998;}
+.container{max-width:920px;margin:auto;padding:180px 32px;position:relative;z-index:2;}
+.hero{text-align:center;margin-bottom:180px;}
+.profile{width:170px;height:170px;border-radius:50%;object-fit:cover;border:2px solid var(--border);animation:breathe 6s infinite ease-in-out;transition:.6s var(--ease);}
+@keyframes breathe{0%,100%{transform:scale(1);}50%{transform:scale(1.05);}}
+h1{font-family:'Playfair Display',serif;font-size:64px;margin-top:50px;transition:letter-spacing .6s var(--ease);}
+.username{color:var(--muted);margin:16px 0 50px;font-size:18px;}
+.tagline{font-family:'Playfair Display',serif;font-size:28px;min-height:90px;opacity:.9;transition:opacity .6s;}
+.links{display:flex;flex-direction:column;gap:34px;}
+.link{padding:34px 38px;border-radius:30px;background:var(--card);backdrop-filter:blur(25px);border:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;text-decoration:none;color:var(--text);font-size:19px;transition:.5s var(--ease);transform-style:preserve-3d;position:relative;overflow:hidden;}
+.link::before{content:"";position:absolute;inset:0;background:linear-gradient(120deg,transparent,rgba(255,255,255,.08),transparent);transform:translateX(-100%);transition:1s var(--ease);}
+.link:hover::before{transform:translateX(100%);}
+.link-left{display:flex;align-items:center;gap:20px;}
+.icon-bubble{width:52px;height:52px;border-radius:18px;display:flex;align-items:center;justify-content:center;background:var(--glass);border:1px solid var(--border);transition:.5s var(--ease);}
+.icon-bubble img{width:26px;height:26px;}
+.link:hover{transform:translateY(-14px) rotateX(5deg) rotateY(5deg);box-shadow:0 40px 140px rgba(0,0,0,.4);}
 .discord:hover{box-shadow:0 40px 140px rgba(88,101,242,.5);}
 .whatsapp:hover{box-shadow:0 40px 140px rgba(37,211,102,.5);}
 .youtube:hover{box-shadow:0 40px 140px rgba(255,0,0,.5);}
 .instagram:hover{box-shadow:0 40px 140px rgba(225,48,108,.5);}
 .tiktok:hover{box-shadow:0 40px 140px rgba(0,242,234,.5);}
 .roblox:hover{box-shadow:0 40px 140px rgba(232,28,36,.5);}
-
-/* ======================================================
-   FOOTER
-====================================================== */
-
-footer{
-text-align:center;
-margin-top:240px;
-color:var(--muted);
-font-size:14px;
-}
-
-/* ======================================================
-   PHILOSOPHY MODE
-====================================================== */
-
-.philosophy{
-position:fixed;
-inset:0;
-background:rgba(0,0,0,.96);
-display:flex;
-align-items:center;
-justify-content:center;
-flex-direction:column;
-text-align:center;
-padding:60px;
-z-index:99999;
-opacity:0;
-pointer-events:none;
-transition:.6s var(--ease);
-}
-
-.philosophy.active{
-opacity:1;
-pointer-events:auto;
-}
-
-.philosophy h2{
-font-family:'Playfair Display',serif;
-font-size:46px;
-margin-bottom:40px;
-}
-
-.philosophy p{
-max-width:800px;
-line-height:2;
-color:#bbb;
-font-size:18px;
-}
-
-.toggle{
-position:fixed;
-top:24px;
-right:24px;
-padding:12px 18px;
-font-size:12px;
-letter-spacing:2px;
-border-radius:22px;
-border:1px solid var(--border);
-background:var(--card);
-cursor:pointer;
-z-index:9999;
-}
-
+footer{text-align:center;margin-top:240px;color:var(--muted);font-size:14px;}
+.philosophy{position:fixed;inset:0;background:rgba(0,0,0,.96);display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center;padding:60px;z-index:99999;opacity:0;pointer-events:none;transition:.6s var(--ease);}
+.philosophy.active{opacity:1;pointer-events:auto;}
+.philosophy h2{font-family:'Playfair Display',serif;font-size:46px;margin-bottom:40px;}
+.philosophy p{max-width:800px;line-height:2;color:#bbb;font-size:18px;}
+.toggle{position:fixed;top:24px;right:24px;padding:12px 18px;font-size:12px;letter-spacing:2px;border-radius:22px;border:1px solid var(--border);background:var(--card);cursor:pointer;z-index:9999;}
 </style>
 </head>
 <body>
 
 <div class="intro">RIDHO</div>
-
 <canvas class="webgl"></canvas>
 <div class="background-gradient"></div>
 <div class="noise"></div>
-
+<canvas class="shader-overlay"></canvas>
 <div class="progress"></div>
 <div class="cursor"></div>
 <div class="toggle" onclick="toggleTheme()">THEME</div>
@@ -360,17 +73,16 @@ z-index:9999;
 <div class="philosophy" id="philosophy">
 <h2>Expressive Discipline</h2>
 <p>
-Discipline is not restriction. It is structure.
-Structure creates clarity.
-Clarity enables freedom.
-Freedom allows expression.
-Expression defines identity.
+Discipline is not restriction. It is structure.<br>
+Structure creates clarity.<br>
+Clarity enables freedom.<br>
+Freedom allows expression.<br>
+Expression defines identity.<br>
 Identity compounds through repetition.
 </p>
 </div>
 
 <div class="container">
-
 <div class="hero">
 <img src="profile.jpg" class="profile" id="profile">
 <h1 id="name">Ridho</h1>
@@ -381,170 +93,82 @@ Identity compounds through repetition.
 <div class="links">
 
 <a href="https://discord.com/users/ridhogeprek" class="link discord">
-<div class="link-left">
-<div class="icon-bubble">
-<img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/discord.svg">
-</div>
-<span>Discord</span>
-</div>
-</a>
-
+<div class="link-left"><div class="icon-bubble"><img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/discord.svg"></div><span>Discord</span></div></a>
 <a href="https://wa.me/6287753475412" class="link whatsapp">
-<div class="link-left">
-<div class="icon-bubble">
-<img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/whatsapp.svg">
-</div>
-<span>WhatsApp</span>
-</div>
-</a>
-
+<div class="link-left"><div class="icon-bubble"><img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/whatsapp.svg"></div><span>WhatsApp</span></div></a>
 <a href="https://youtube.com/@y4timz" class="link youtube">
-<div class="link-left">
-<div class="icon-bubble">
-<img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/youtube.svg">
-</div>
-<span>YouTube</span>
-</div>
-</a>
-
+<div class="link-left"><div class="icon-bubble"><img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/youtube.svg"></div><span>YouTube</span></div></a>
 <a href="https://instagram.com/ridhogeprek" class="link instagram">
-<div class="link-left">
-<div class="icon-bubble">
-<img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/instagram.svg">
-</div>
-<span>Instagram</span>
-</div>
-</a>
-
+<div class="link-left"><div class="icon-bubble"><img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/instagram.svg"></div><span>Instagram</span></div></a>
 <a href="https://tiktok.com/@idogeprek" class="link tiktok">
-<div class="link-left">
-<div class="icon-bubble">
-<img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/tiktok.svg">
-</div>
-<span>TikTok</span>
-</div>
-</a>
-
+<div class="link-left"><div class="icon-bubble"><img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/tiktok.svg"></div><span>TikTok</span></div></a>
 <a href="https://www.roblox.com/search/users?keyword=y4timz" class="link roblox">
-<div class="link-left">
-<div class="icon-bubble">
-<img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/roblox.svg">
-</div>
-<span>Roblox</span>
-</div>
-</a>
+<div class="link-left"><div class="icon-bubble"><img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/roblox.svg"></div><span>Roblox</span></div></a>
 
 </div>
-
-<footer>
-© <script>document.write(new Date().getFullYear())</script> Ridho — Expressive Discipline
-</footer>
-
+<footer>© <script>document.write(new Date().getFullYear())</script> Ridho — Expressive Discipline</footer>
 </div>
 
 <script>
-
-/* ======================================================
-   CORE INTERACTION ENGINE
-====================================================== */
-
+// Cursor
 const cursor=document.querySelector(".cursor");
-let lastX=0,lastY=0;
+document.addEventListener("mousemove",e=>{cursor.style.left=e.clientX+"px";cursor.style.top=e.clientY+"px";});
 
-document.addEventListener("mousemove",e=>{
-cursor.style.left=e.clientX+"px";
-cursor.style.top=e.clientY+"px";
-let dx=e.clientX-lastX;
-let dy=e.clientY-lastY;
-let speed=Math.sqrt(dx*dx+dy*dy);
-cursor.style.transform=`translate(-50%,-50%) scale(${1+speed/150})`;
-lastX=e.clientX;
-lastY=e.clientY;
-});
-
-/* scroll progress */
+// Progress Bar
 window.addEventListener("scroll",()=>{
 const winScroll=document.documentElement.scrollTop;
 const height=document.documentElement.scrollHeight-document.documentElement.clientHeight;
 document.querySelector(".progress").style.width=(winScroll/height)*100+"%";
 });
 
-/* magnetic links */
-document.querySelectorAll(".link").forEach(link=>{
-link.addEventListener("mousemove",e=>{
-const rect=link.getBoundingClientRect();
-const x=e.clientX-rect.left-rect.width/2;
-const y=e.clientY-rect.top-rect.height/2;
-link.style.transform=`translateY(-14px) rotateX(${y/18}deg) rotateY(${x/18}deg)`;
-});
-link.addEventListener("mouseleave",()=>{
-link.style.transform="translateY(0)";
-});
-});
-
-/* quote system */
-const quotes=[
-"Discipline creates freedom.",
-"Silence sharpens identity.",
-"Consistency compounds power.",
-"Expression requires structure.",
-"Depth emerges through repetition."
-];
+// Quotes
+const quotes=["Discipline creates freedom.","Silence sharpens identity.","Consistency compounds power.","Expression requires structure.","Depth emerges through repetition."];
 let qi=0;
+const quote=document.getElementById("quote");
 quote.innerText=quotes[0];
-setInterval(()=>{
-qi=(qi+1)%quotes.length;
-quote.innerText=quotes[qi];
-},4500);
+setInterval(()=>{qi=(qi+1)%quotes.length;quote.innerText=quotes[qi];},4500);
 
-/* name morph */
-setInterval(()=>{
-name.style.letterSpacing=Math.random()*8+"px";
-},3000);
+// Name animation
+const name=document.getElementById("name");
+setInterval(()=>{name.style.letterSpacing=Math.random()*8+"px";},3000);
 
-/* theme memory */
+// Theme toggle
 if(localStorage.getItem("theme")==="light"){document.body.classList.add("light");}
-function toggleTheme(){
-document.body.classList.toggle("light");
-localStorage.setItem("theme",document.body.classList.contains("light")?"light":"dark");
-}
+function toggleTheme(){document.body.classList.toggle("light");localStorage.setItem("theme",document.body.classList.contains("light")?"light":"dark");}
 
-/* philosophy toggle */
-document.addEventListener("keydown",e=>{
-if(e.key==="p"){philosophy.classList.toggle("active");}
-});
+// Easter egg
+const philosophy=document.getElementById("philosophy");
+document.addEventListener("keydown",e=>{if(e.key==="p"){philosophy.classList.toggle("active");}});
+document.addEventListener("touchend",function(e){if(e.target.classList.contains('toggle')){philosophy.classList.toggle("active");}});
 
-/* three.js core scene */
+// Three.js WebGL
 const scene=new THREE.Scene();
 const camera=new THREE.PerspectiveCamera(75,window.innerWidth/window.innerHeight,0.1,1000);
 const renderer=new THREE.WebGLRenderer({canvas:document.querySelector(".webgl"),alpha:true});
 renderer.setSize(window.innerWidth,window.innerHeight);
-
 const geometry=new THREE.IcosahedronGeometry(5,2);
 const material=new THREE.MeshStandardMaterial({color:0xc6a15b,wireframe:true});
 const mesh=new THREE.Mesh(geometry,material);
 scene.add(mesh);
-
-const light=new THREE.PointLight(0xffffff,1);
-light.position.set(10,10,10);
-scene.add(light);
-
+const light=new THREE.PointLight(0xffffff,1); light.position.set(10,10,10); scene.add(light);
 camera.position.z=12;
-
-function animate(){
-requestAnimationFrame(animate);
-mesh.rotation.x+=0.002;
-mesh.rotation.y+=0.003;
-renderer.render(scene,camera);
-}
+function animate(){requestAnimationFrame(animate);mesh.rotation.x+=0.002;mesh.rotation.y+=0.003;renderer.render(scene,camera);}
 animate();
-
 document.addEventListener("mousemove",e=>{
 camera.position.x=(e.clientX/window.innerWidth-0.5)*3;
 camera.position.y=-(e.clientY/window.innerHeight-0.5)*3;
 camera.lookAt(scene.position);
 });
 
+// Shader overlay + particles
+const shaderCanvas=document.querySelector(".shader-overlay");
+const sctx=shaderCanvas.getContext("2d");
+shaderCanvas.width=window.innerWidth;
+shaderCanvas.height=window.innerHeight;
+const particles=[];
+for(let i=0;i<200;i++){particles.push({x:Math.random()*window.innerWidth,y:Math.random()*window.innerHeight,radius:Math.random()*2+0.5,speed:Math.random()*0.4+0.1})}
+function shaderAnimate(){sctx.clearRect(0,0,shaderCanvas.width,shaderCanvas.height);for(let p of particles){p.y-=p.speed;if(p.y<0)p.y=shaderCanvas.height;sctx.beginPath();sctx.arc(p.x,p.y,p.radius,0,Math.PI*2);sctx.fillStyle=`rgba(198,161,91,0.3)`;sctx.fill();}requestAnimationFrame(shaderAnimate);}
+shaderAnimate();
 </script>
 
 </body>
