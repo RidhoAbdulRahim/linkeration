@@ -6,47 +6,128 @@
 <title>Ridho — Expressive Discipline</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
 <style>
+
+/* ================= ROOT ================= */
+
 :root{
+--bg:#0b0c10;
+--card:rgba(22,24,33,0.65);
 --text:#f4f4f6;
 --muted:#9da3b0;
 --accent:#c6a15b;
+--accent2:#6f8cff;
+--border:rgba(255,255,255,0.08);
+}
+
+.light{
+--bg:#f4f4f6;
+--card:rgba(255,255,255,0.7);
+--text:#111;
+--muted:#555;
+--accent:#9a6a2b;
+--accent2:#4f6cff;
+--border:rgba(0,0,0,0.08);
 }
 
 *{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
 body{
 font-family:'Inter',sans-serif;
-background:#000;
+background:var(--bg);
 color:var(--text);
 overflow-x:hidden;
 cursor:none;
+transition:.4s ease;
 }
 
-/* WebGL Canvas */
+/* ================= BACKGROUND LAYERS ================= */
+
 canvas{
 position:fixed;
 top:0;
 left:0;
-z-index:-2;
+z-index:-10;
 }
 
-/* Cursor */
+body::before{
+content:"";
+position:fixed;
+inset:0;
+background:
+radial-gradient(circle at 20% 30%, #6f8cff33, transparent 60%),
+radial-gradient(circle at 80% 70%, #c6a15b33, transparent 60%);
+filter:blur(120px);
+opacity:.5;
+z-index:-9;
+animation:floatBG 20s ease-in-out infinite alternate;
+}
+@keyframes floatBG{
+from{transform:translateY(-40px);}
+to{transform:translateY(40px);}
+}
+
+body::after{
+content:"";
+position:fixed;
+inset:0;
+background:url("https://www.transparenttextures.com/patterns/noise.png");
+opacity:.03;
+pointer-events:none;
+z-index:-8;
+}
+
+/* ================= INTRO ================= */
+
+.intro{
+position:fixed;
+inset:0;
+background:#000;
+display:flex;
+align-items:center;
+justify-content:center;
+font-family:'Playfair Display',serif;
+font-size:44px;
+letter-spacing:6px;
+z-index:99999;
+animation:introFade 3.5s forwards;
+}
+@keyframes introFade{
+0%{opacity:1;}
+85%{opacity:1;}
+100%{opacity:0;visibility:hidden;}
+}
+
+/* ================= CURSOR ================= */
+
 .cursor{
 position:fixed;
-width:20px;
-height:20px;
+width:24px;
+height:24px;
 border-radius:50%;
 background:radial-gradient(circle,var(--accent),transparent 70%);
 pointer-events:none;
 mix-blend-mode:screen;
 z-index:9999;
-transition:.1s;
+transition:width .2s,height .2s;
 }
 
-/* Layout */
+/* ================= PROGRESS ================= */
+
+.progress{
+position:fixed;
+top:0;
+left:0;
+height:3px;
+background:linear-gradient(90deg,var(--accent),var(--accent2));
+width:0%;
+z-index:9998;
+}
+
+/* ================= LAYOUT ================= */
+
 .container{
 max-width:860px;
 margin:auto;
@@ -55,26 +136,27 @@ position:relative;
 z-index:2;
 }
 
-.hero{
-text-align:center;
-margin-bottom:140px;
-}
+.hero{text-align:center;margin-bottom:160px;}
 
 .profile{
 width:160px;
 height:160px;
 border-radius:50%;
 object-fit:cover;
-border:2px solid rgba(255,255,255,.1);
-transition:.5s ease;
+border:2px solid var(--border);
+transition:.6s ease;
+animation:breathe 5s infinite ease-in-out;
 }
-.profile:hover{transform:scale(1.1) rotate(4deg);}
+@keyframes breathe{
+0%,100%{transform:scale(1);}
+50%{transform:scale(1.04);}
+}
 
 h1{
 font-family:'Playfair Display',serif;
 font-size:60px;
-letter-spacing:2px;
-transition:.4s ease;
+margin-top:40px;
+transition:.5s;
 }
 
 .username{
@@ -86,10 +168,79 @@ margin:14px 0 40px;
 font-family:'Playfair Display',serif;
 font-size:26px;
 min-height:80px;
-opacity:.9;
 }
 
-/* Philosophy Mode */
+/* ================= LINKS ================= */
+
+.links{display:flex;flex-direction:column;gap:30px;}
+
+.link{
+padding:30px 34px;
+border-radius:28px;
+background:var(--card);
+backdrop-filter:blur(20px);
+border:1px solid var(--border);
+display:flex;
+align-items:center;
+justify-content:space-between;
+text-decoration:none;
+color:var(--text);
+font-size:18px;
+transition:.4s cubic-bezier(.16,1,.3,1);
+transform-style:preserve-3d;
+position:relative;
+overflow:hidden;
+}
+
+.link::before{
+content:"";
+position:absolute;
+inset:0;
+background:linear-gradient(120deg,transparent,rgba(255,255,255,.08),transparent);
+transform:translateX(-100%);
+transition:.6s;
+}
+.link:hover::before{transform:translateX(100%);}
+
+.link-left{display:flex;align-items:center;gap:18px;}
+
+.icon-bubble{
+width:48px;
+height:48px;
+border-radius:16px;
+display:flex;
+align-items:center;
+justify-content:center;
+background:rgba(255,255,255,.06);
+border:1px solid rgba(255,255,255,.08);
+transition:.4s;
+}
+.icon-bubble img{width:24px;height:24px;}
+
+.link:hover{
+transform:translateY(-12px) rotateX(4deg) rotateY(4deg);
+}
+
+.discord:hover{box-shadow:0 30px 100px rgba(88,101,242,.5);}
+.whatsapp:hover{box-shadow:0 30px 100px rgba(37,211,102,.5);}
+.youtube:hover{box-shadow:0 30px 100px rgba(255,0,0,.5);}
+.instagram:hover{box-shadow:0 30px 100px rgba(225,48,108,.5);}
+.tiktok:hover{box-shadow:0 30px 100px rgba(0,242,234,.5);}
+.roblox:hover{box-shadow:0 30px 100px rgba(232,28,36,.5);}
+
+.instagram-gradient{
+background:linear-gradient(45deg,#f58529,#dd2a7b,#8134af,#515bd4);
+background-size:300% 300%;
+animation:instaMove 6s ease infinite;
+}
+@keyframes instaMove{
+0%{background-position:0% 50%;}
+50%{background-position:100% 50%;}
+100%{background-position:0% 50%;}
+}
+
+/* ================= PHILOSOPHY MODE ================= */
+
 .philosophy{
 position:fixed;
 inset:0;
@@ -111,7 +262,7 @@ pointer-events:auto;
 }
 .philosophy h2{
 font-family:'Playfair Display',serif;
-font-size:42px;
+font-size:44px;
 margin-bottom:30px;
 }
 .philosophy p{
@@ -120,65 +271,51 @@ line-height:1.8;
 color:#bbb;
 }
 
-/* Links */
-.links{display:flex;flex-direction:column;gap:30px;}
-.link{
-padding:30px;
-border-radius:28px;
-background:rgba(255,255,255,.05);
-backdrop-filter:blur(20px);
-border:1px solid rgba(255,255,255,.08);
-display:flex;
-align-items:center;
-gap:20px;
-text-decoration:none;
-color:white;
-font-size:18px;
-transition:.4s cubic-bezier(.16,1,.3,1);
-transform-style:preserve-3d;
-}
-.link:hover{
-transform:translateY(-12px) rotateX(6deg) rotateY(6deg);
-box-shadow:0 40px 120px rgba(255,255,255,.2);
-}
-
-.icon{
-width:46px;
-height:46px;
-border-radius:14px;
-display:flex;
-align-items:center;
-justify-content:center;
-background:rgba(255,255,255,.1);
-}
-.icon img{width:24px;height:24px;}
-
 footer{
 text-align:center;
 margin-top:200px;
 color:var(--muted);
 }
+
+.toggle{
+position:fixed;
+top:20px;
+right:20px;
+padding:10px 16px;
+font-size:12px;
+letter-spacing:2px;
+border-radius:20px;
+border:1px solid var(--border);
+background:var(--card);
+cursor:pointer;
+z-index:9999;
+}
+
 </style>
 </head>
 
 <body>
 
+<div class="intro">RIDHO</div>
+<div class="progress"></div>
 <div class="cursor"></div>
+<div class="toggle" onclick="toggleTheme()">THEME</div>
+
 <div class="philosophy" id="philosophy">
 <h2>Expressive Discipline</h2>
 <p>
-Discipline is not restriction. It is structure.  
-Structure creates freedom.  
-Freedom allows expression.  
-Expression defines identity.  
-Identity compounds through repetition.
+Discipline is structure.  
+Structure creates clarity.  
+Clarity enables freedom.  
+Freedom unlocks expression.  
+Expression defines identity.
 </p>
 </div>
 
 <div class="container">
 
 <div class="hero">
-<img src="profile.jpg" class="profile">
+<img src="profile.jpg" class="profile" id="profile">
 <h1 id="name">Ridho</h1>
 <div class="username">@ridhogeprek</div>
 <div class="tagline" id="quote"></div>
@@ -186,62 +323,143 @@ Identity compounds through repetition.
 
 <div class="links">
 
-<a href="#" class="link">
-<div class="icon"><img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/discord.svg"></div>
-Discord
+<a href="https://discord.com/users/ridhogeprek" class="link discord">
+<div class="link-left">
+<div class="icon-bubble"><img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/discord.svg"></div>
+<span>Discord</span>
+</div>
 </a>
 
-<a href="#" class="link">
-<div class="icon"><img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/instagram.svg"></div>
-Instagram
+<a href="https://wa.me/6287753475412" class="link whatsapp">
+<div class="link-left">
+<div class="icon-bubble"><img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/whatsapp.svg"></div>
+<span>WhatsApp</span>
+</div>
 </a>
 
-<a href="#" class="link">
-<div class="icon"><img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/youtube.svg"></div>
-YouTube
+<a href="https://youtube.com/@y4timz" class="link youtube">
+<div class="link-left">
+<div class="icon-bubble"><img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/youtube.svg"></div>
+<span>YouTube</span>
+</div>
+</a>
+
+<a href="https://instagram.com/ridhogeprek" class="link instagram">
+<div class="link-left">
+<div class="icon-bubble instagram-gradient"><img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/instagram.svg"></div>
+<span>Instagram</span>
+</div>
+</a>
+
+<a href="https://tiktok.com/@idogeprek" class="link tiktok">
+<div class="link-left">
+<div class="icon-bubble"><img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/tiktok.svg"></div>
+<span>TikTok</span>
+</div>
+</a>
+
+<a href="https://www.roblox.com/search/users?keyword=y4timz" class="link roblox">
+<div class="link-left">
+<div class="icon-bubble"><img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/roblox.svg"></div>
+<span>Roblox</span>
+</div>
 </a>
 
 </div>
 
 <footer>
-© <script>document.write(new Date().getFullYear())</script> Ridho
+© <script>document.write(new Date().getFullYear())</script> Ridho — Expressive Discipline
 </footer>
 
 </div>
 
 <script>
 
-/* Cursor */
+/* SCROLL PROGRESS */
+window.addEventListener("scroll",()=>{
+const winScroll=document.documentElement.scrollTop;
+const height=document.documentElement.scrollHeight-document.documentElement.clientHeight;
+document.querySelector(".progress").style.width=(winScroll/height)*100+"%";
+});
+
+/* CURSOR + STRETCH */
 const cursor=document.querySelector(".cursor");
+let lastX=0,lastY=0;
 document.addEventListener("mousemove",e=>{
 cursor.style.left=e.clientX+"px";
 cursor.style.top=e.clientY+"px";
+let dx=e.clientX-lastX;
+let dy=e.clientY-lastY;
+let speed=Math.sqrt(dx*dx+dy*dy);
+cursor.style.transform=`translate(-50%,-50%) scale(${1+speed/150})`;
+lastX=e.clientX;
+lastY=e.clientY;
 });
 
-/* Identity Morph */
-const nameEl=document.getElementById("name");
-setInterval(()=>{
-nameEl.style.letterSpacing=Math.random()*6+"px";
-},2000);
+/* MAGNETIC LINKS */
+document.querySelectorAll(".link").forEach(link=>{
+link.addEventListener("mousemove",e=>{
+const rect=link.getBoundingClientRect();
+const x=e.clientX-rect.left-rect.width/2;
+const y=e.clientY-rect.top-rect.height/2;
+link.style.transform=`translateY(-12px) rotateX(${y/20}deg) rotateY(${x/20}deg)`;
+});
+link.addEventListener("mouseleave",()=>{
+link.style.transform="translateY(0)";
+});
+});
 
-/* Quotes */
+/* QUOTES */
 const quotes=[
 "Discipline creates freedom.",
-"Silence sharpens identity.",
+"Silence builds identity.",
 "Consistency compounds power.",
 "Expression requires structure."
 ];
 let i=0;
-document.getElementById("quote").innerText=quotes[0];
+quote.innerText=quotes[0];
 setInterval(()=>{
 i=(i+1)%quotes.length;
-document.getElementById("quote").innerText=quotes[i];
+quote.innerText=quotes[i];
 },4000);
 
-/* Philosophy Toggle */
+/* NAME MORPH */
+setInterval(()=>{
+name.style.letterSpacing=Math.random()*6+"px";
+},2500);
+
+/* THEME */
+if(localStorage.getItem("theme")==="light"){document.body.classList.add("light");}
+function toggleTheme(){
+document.body.classList.toggle("light");
+localStorage.setItem("theme",document.body.classList.contains("light")?"light":"dark");
+}
+
+/* PHILOSOPHY */
 document.addEventListener("keydown",e=>{
-if(e.key==="p"){
-document.getElementById("philosophy").classList.toggle("active");
+if(e.key==="p"){philosophy.classList.toggle("active");}
+});
+
+/* ASCEND MODE */
+let aCount=0;
+document.addEventListener("keydown",e=>{
+if(e.key==="a"){
+aCount++;
+if(aCount===3){
+mesh.material.color.set(0x6f8cff);
+alert("Ascend Mode Activated.");
+aCount=0;
+}
+}
+});
+
+/* PROFILE EASTER */
+let taps=0;
+profile.addEventListener("click",()=>{
+taps++;
+if(taps===5){
+alert("Hidden Depth Mode Activated.");
+taps=0;
 }
 });
 
@@ -250,13 +468,14 @@ let scene=new THREE.Scene();
 let camera=new THREE.PerspectiveCamera(75,window.innerWidth/window.innerHeight,0.1,1000);
 let renderer=new THREE.WebGLRenderer({alpha:true});
 renderer.setSize(window.innerWidth,window.innerHeight);
+renderer.domElement.style.position="fixed";
+renderer.domElement.style.top="0";
+renderer.domElement.style.left="0";
+renderer.domElement.style.zIndex="-10";
 document.body.appendChild(renderer.domElement);
 
-let geometry=new THREE.IcosahedronGeometry(4,1);
-let material=new THREE.MeshStandardMaterial({
-color:0xc6a15b,
-wireframe:true
-});
+let geometry=new THREE.IcosahedronGeometry(5,2);
+let material=new THREE.MeshStandardMaterial({color:0xc6a15b,wireframe:true});
 let mesh=new THREE.Mesh(geometry,material);
 scene.add(mesh);
 
@@ -264,21 +483,44 @@ let light=new THREE.PointLight(0xffffff,1);
 light.position.set(10,10,10);
 scene.add(light);
 
-camera.position.z=10;
+camera.position.z=12;
 
 function animate(){
 requestAnimationFrame(animate);
-mesh.rotation.x+=0.003;
-mesh.rotation.y+=0.004;
+mesh.rotation.x+=0.002;
+mesh.rotation.y+=0.003;
 renderer.render(scene,camera);
 }
 animate();
 
-/* Mouse parallax camera */
 document.addEventListener("mousemove",e=>{
-camera.position.x=(e.clientX/window.innerWidth-0.5)*2;
-camera.position.y=-(e.clientY/window.innerHeight-0.5)*2;
+camera.position.x=(e.clientX/window.innerWidth-0.5)*3;
+camera.position.y=-(e.clientY/window.innerHeight-0.5)*3;
 camera.lookAt(scene.position);
+});
+
+/* PARTICLE BURST */
+document.addEventListener("click",e=>{
+for(let i=0;i<12;i++){
+let p=document.createElement("div");
+p.style.position="fixed";
+p.style.width="6px";
+p.style.height="6px";
+p.style.borderRadius="50%";
+p.style.background="var(--accent)";
+p.style.left=e.clientX+"px";
+p.style.top=e.clientY+"px";
+p.style.pointerEvents="none";
+p.style.zIndex="9999";
+document.body.appendChild(p);
+let angle=Math.random()*2*Math.PI;
+let distance=Math.random()*120;
+p.animate([
+{transform:"translate(0,0)",opacity:1},
+{transform:`translate(${Math.cos(angle)*distance}px,${Math.sin(angle)*distance}px)`,opacity:0}
+],{duration:800,easing:"ease-out"});
+setTimeout(()=>p.remove(),800);
+}
 });
 
 </script>
