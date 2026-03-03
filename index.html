@@ -1,264 +1,232 @@
 <!DOCTYPE html>
-<html lang="id" data-theme="light">
+<html lang="en">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Ridho — @ridhogeprek</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@900&family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ridho</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
 <style>
-  :root {
-    --rose: #f472b6; --sky: #7dd3fc; --lilac: #c084fc;
-    --bg: #fdf4fb; --text: #1a1025; --sub: #64748b;
-    --glass: rgba(255, 255, 255, 0.75);
-    --border: rgba(255, 255, 255, 0.5);
-    --accent: #f472b6;
-  }
+:root{
+--bg:#06070a;
+--text:#ffffff;
+--muted:#9aa0aa;
+--glass:rgba(255,255,255,0.05);
+--border:rgba(255,255,255,0.1);
+--accent:#7c5cff;
+}
 
-  [data-theme="dark"] {
-    --bg: #030308; --text: #ffffff; --sub: #94a3b8;
-    --glass: rgba(15, 15, 25, 0.8);
-    --border: rgba(255, 255, 255, 0.1);
-    --accent: #7dd3fc;
-  }
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
 
-  * { box-sizing: border-box; margin: 0; padding: 0; cursor: default; -webkit-tap-highlight-color: transparent; }
-  
-  body {
-    background: var(--bg);
-    font-family: 'Outfit', sans-serif;
-    color: var(--text);
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    padding: 60px 24px;
-    transition: background 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-    overflow: hidden; /* Mencegah scroll saat modal muncul */
-  }
+body{
+font-family:'Inter',sans-serif;
+background:var(--bg);
+color:var(--text);
+min-height:100vh;
+display:flex;
+align-items:center;
+justify-content:center;
+overflow:hidden;
+}
 
-  /* Smooth Mesh Background */
-  .bg-mesh { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
-  .bg-mesh div {
-    position: absolute; border-radius: 50%; filter: blur(120px);
-    opacity: 0.4; animation: morph 25s infinite alternate ease-in-out;
-  }
-  .c1 { width: 450px; height: 450px; background: var(--rose); top: -10%; right: -10%; }
-  .c2 { width: 400px; height: 400px; background: var(--sky); bottom: -5%; left: -5%; animation-delay: -5s; }
+/* Animated background gradient */
 
-  @keyframes morph {
-    0% { transform: translate(0, 0) scale(1) rotate(0deg); }
-    100% { transform: translate(60px, 120px) scale(1.3) rotate(20deg); }
-  }
+body::before{
+content:"";
+position:fixed;
+inset:0;
+background:
+radial-gradient(circle at 15% 25%, #7c5cff33, transparent 40%),
+radial-gradient(circle at 85% 75%, #00e0ff33, transparent 40%);
+animation:backgroundShift 12s ease-in-out infinite alternate;
+z-index:0;
+}
 
-  .wrapper { 
-    max-width: 400px; width: 100%; position: relative; z-index: 10; 
-    overflow-y: auto; height: 100%; -ms-overflow-style: none; scrollbar-width: none;
-  }
-  .wrapper::-webkit-scrollbar { display: none; }
+@keyframes backgroundShift{
+from{transform:translateY(-20px);}
+to{transform:translateY(20px);}
+}
 
-  /* Profile Animation */
-  .profile { text-align: center; margin-bottom: 40px; }
-  .avatar-wrap {
-    width: 130px; height: 130px; margin: 0 auto 24px;
-    position: relative; padding: 6px;
-    background: linear-gradient(135deg, var(--rose), var(--lilac), var(--sky));
-    border-radius: 40% 60% 70% 30% / 40% 50% 60% 70%;
-    animation: profileShape 10s ease-in-out infinite alternate;
-    box-shadow: 0 15px 45px -10px rgba(244, 114, 182, 0.4);
-  }
-  @keyframes profileShape {
-    0% { border-radius: 40% 60% 70% 30% / 40% 50% 60% 70%; }
-    100% { border-radius: 70% 40% 30% 60% / 60% 30% 60% 40%; }
-  }
-  .avatar { width: 100%; height: 100%; border-radius: inherit; object-fit: cover; border: 4px solid var(--bg); transition: 0.8s; }
+/* Subtle grain */
 
-  .name { font-family: 'Playfair Display', serif; font-size: 2.8rem; letter-spacing: -1.5px; margin-bottom: 8px; }
-  .username { font-size: 0.85rem; font-weight: 700; color: var(--sub); letter-spacing: 4px; text-transform: uppercase; opacity: 0.7; }
+body::after{
+content:"";
+position:fixed;
+inset:0;
+background-image:url("https://grainy-gradients.vercel.app/noise.svg");
+opacity:0.04;
+pointer-events:none;
+z-index:1;
+}
 
-  /* Music Player with Glow */
-  .music-card {
-    background: var(--glass); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-    border: 1px solid var(--border);
-    padding: 14px 24px; border-radius: 60px;
-    margin-bottom: 35px; display: flex; align-items: center; gap: 15px;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.04);
-  }
-  .viz-bar { width: 3px; height: 15px; background: var(--accent); border-radius: 4px; opacity: 0.3; }
-  .playing .viz-bar { animation: bounce 0.8s infinite alternate ease-in-out; }
-  @keyframes bounce { 0% { height: 5px; opacity: 0.3; } 100% { height: 18px; opacity: 1; } }
+/* Card */
 
-  /* Links List */
-  .links { display: grid; gap: 14px; }
-  .link-card {
-    background: var(--glass); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
-    border: 1px solid var(--border);
-    padding: 18px 24px; border-radius: 24px;
-    text-decoration: none; color: var(--text);
-    display: flex; align-items: center; justify-content: space-between;
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    opacity: 0; transform: translateY(30px);
-    animation: slideUp 0.8s forwards ease-out;
-  }
-  @keyframes slideUp { to { opacity: 1; transform: translateY(0); } }
+.card{
+position:relative;
+z-index:2;
+width:100%;
+max-width:560px;
+padding:70px;
+background:var(--glass);
+backdrop-filter:blur(35px);
+border:1px solid var(--border);
+border-radius:32px;
+box-shadow:
+0 0 80px rgba(124,92,255,0.15),
+0 20px 60px rgba(0,0,0,0.6);
+transition:transform 0.4s ease;
+}
 
-  .link-card:hover {
-    transform: scale(1.05) translateY(-5px);
-    background: var(--text); color: var(--bg);
-    box-shadow: 0 20px 40px -10px rgba(0,0,0,0.15);
-  }
+/* 3D tilt */
 
-  /* MODAL STYLING */
-  #modalOverlay {
-    position: fixed; inset: 0; background: rgba(0,0,0,0.4);
-    backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
-    display: flex; align-items: center; justify-content: center;
-    z-index: 1000; opacity: 0; pointer-events: none;
-    transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-  #modalOverlay.active { opacity: 1; pointer-events: auto; }
+.card:hover{
+transform:rotateX(2deg) rotateY(-2deg);
+}
 
-  .modal-box {
-    background: var(--glass); border: 1px solid var(--border);
-    padding: 32px; border-radius: 32px; width: 90%; max-width: 320px;
-    text-align: center; transform: scale(0.8) translateY(20px);
-    transition: 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-    box-shadow: 0 30px 60px -12px rgba(0,0,0,0.25);
-  }
-  #modalOverlay.active .modal-box { transform: scale(1) translateY(0); }
+/* Profile */
 
-  .modal-btn-wrap { display: flex; gap: 12px; margin-top: 24px; }
-  .m-btn {
-    flex: 1; padding: 14px; border-radius: 16px; border: none;
-    font-weight: 700; font-family: 'Outfit'; cursor: pointer; transition: 0.3s;
-  }
-  .m-cancel { background: transparent; color: var(--text); border: 1px solid var(--border); }
-  .m-confirm { background: var(--accent); color: white; box-shadow: 0 10px 20px -5px var(--accent); }
-  .m-confirm:hover { transform: translateY(-2px); filter: brightness(1.1); }
+.profile{
+width:96px;
+height:96px;
+border-radius:50%;
+object-fit:cover;
+border:2px solid rgba(255,255,255,0.2);
+margin-bottom:36px;
+}
 
-  /* Theme Toggle */
-  .theme-btn {
-    position: fixed; top: 25px; right: 25px; width: 48px; height: 48px;
-    border-radius: 18px; background: var(--glass); border: 1px solid var(--border);
-    display: flex; align-items: center; justify-content: center; z-index: 100;
-    transition: 0.3s;
-  }
-  .theme-btn:active { transform: scale(0.9); }
+/* Typography */
 
-  #yt-player { position: absolute; visibility: hidden; pointer-events: none; }
+h1{
+font-size:36px;
+font-weight:700;
+letter-spacing:-0.03em;
+}
+
+.username{
+margin-top:8px;
+color:var(--muted);
+font-size:15px;
+}
+
+.quote{
+margin-top:40px;
+font-size:17px;
+line-height:1.7;
+color:#d8dbe3;
+max-width:440px;
+}
+
+/* Links */
+
+.links{
+margin-top:70px;
+display:flex;
+flex-direction:column;
+gap:20px;
+}
+
+.link{
+position:relative;
+padding:20px 26px;
+border-radius:16px;
+text-decoration:none;
+color:var(--text);
+background:rgba(255,255,255,0.03);
+border:1px solid rgba(255,255,255,0.08);
+transition:all 0.3s cubic-bezier(.16,1,.3,1);
+overflow:hidden;
+font-size:16px;
+font-weight:500;
+}
+
+.link::before{
+content:"";
+position:absolute;
+inset:0;
+background:linear-gradient(120deg, transparent, rgba(124,92,255,0.4), transparent);
+transform:translateX(-100%);
+transition:transform 0.8s ease;
+}
+
+.link:hover::before{
+transform:translateX(100%);
+}
+
+.link:hover{
+transform:translateY(-8px) scale(1.03);
+box-shadow:0 25px 60px rgba(124,92,255,0.35);
+border-color:var(--accent);
+}
+
+/* Footer */
+
+footer{
+margin-top:60px;
+font-size:13px;
+color:var(--muted);
+}
+
+/* Entrance animation */
+
+.card{
+animation:fadeUp 1s cubic-bezier(.16,1,.3,1);
+}
+
+@keyframes fadeUp{
+from{
+opacity:0;
+transform:translateY(30px);
+}
+to{
+opacity:1;
+transform:translateY(0);
+}
+}
+
+/* Reduced motion */
+
+@media (prefers-reduced-motion: reduce){
+.card,
+.link{
+animation:none;
+transition:none;
+}
+}
 </style>
 </head>
+
 <body>
 
-<div class="bg-mesh"><div class="c1"></div><div class="c2"></div></div>
+<div class="card">
 
-<button class="theme-btn" id="themeToggle">
-  <svg style="width:20px; stroke:currentColor; fill:none; stroke-width:2" id="themeIcon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
-</button>
+<img src="profile.jpg" alt="Profile photo" class="profile">
 
-<div class="wrapper">
-  <header class="profile">
-    <div class="avatar-wrap"><img src="profile.jpg" alt="Ridho" class="avatar"></div>
-    <h1 class="name">Ridho</h1>
-    <p class="username">@ridhogeprek</p>
-  </header>
+<h1>Ridho</h1>
+<div class="username">@ridhogeprek</div>
 
-  <div class="music-card">
-    <button id="playBtn" style="border:none; background:var(--accent); color:white; width:38px; height:38px; border-radius:50%; display:flex; align-items:center; justify-content:center; transition:0.3s;">
-      <svg id="pIcon" style="width:14px; fill:currentColor" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
-    </button>
-    <div style="flex-grow:1">
-      <p style="font-size: 0.8rem; font-weight: 700;">Blue Boi</p>
-      <p style="font-size: 0.7rem; color: var(--sub);">LAKEY INSPIRED</p>
-    </div>
-    <div class="viz-cont" id="viz" style="display:flex; gap:3px; align-items:flex-end; height:18px;">
-      <div class="viz-bar"></div><div class="viz-bar" style="animation-delay:0.2s"></div><div class="viz-bar" style="animation-delay:0.4s"></div>
-    </div>
-  </div>
+<p class="quote">
+Focused on continuous growth, disciplined execution, and long-term evolution.
+</p>
 
-  <main class="links">
-    <a href="#" data-url="https://wa.me/6287753475412" class="link-card link-trigger" style="animation-delay: 0.1s;">
-      <span style="font-weight:600">WhatsApp</span>
-      <svg style="width:16px; opacity:0.5; stroke:currentColor; fill:none; stroke-width:2" viewBox="0 0 24 24"><path d="M5 12h14m-7-7 7 7-7 7"></path></svg>
-    </a>
-    <a href="#" data-url="https://www.instagram.com/ridhogeprek" class="link-card link-trigger" style="animation-delay: 0.2s;">
-      <span style="font-weight:600">Instagram</span>
-      <svg style="width:16px; opacity:0.5; stroke:currentColor; fill:none; stroke-width:2" viewBox="0 0 24 24"><path d="M5 12h14m-7-7 7 7-7 7"></path></svg>
-    </a>
-    <a href="#" data-url="https://www.tiktok.com/@ridhogeprek" class="link-card link-trigger" style="animation-delay: 0.3s;">
-      <span style="font-weight:600">TikTok</span>
-      <svg style="width:16px; opacity:0.5; stroke:currentColor; fill:none; stroke-width:2" viewBox="0 0 24 24"><path d="M5 12h14m-7-7 7 7-7 7"></path></svg>
-    </a>
-    <a href="#" data-url="https://youtube.com/@y4timz" class="link-card link-trigger" style="animation-delay: 0.4s;">
-      <span style="font-weight:600">YouTube</span>
-      <svg style="width:16px; opacity:0.5; stroke:currentColor; fill:none; stroke-width:2" viewBox="0 0 24 24"><path d="M5 12h14m-7-7 7 7-7 7"></path></svg>
-    </a>
-  </main>
+<div class="links">
+<a href="https://discord.com/users/ridhogeprek" class="link">Discord</a>
+<a href="https://wa.me/6287753475412" class="link">WhatsApp</a>
+<a href="https://youtube.com/@y4timz" class="link">YouTube</a>
+<a href="https://tiktok.com/@idogeprek" class="link">TikTok</a>
+<a href="https://instagram.com/ridhogeprek" class="link">Instagram</a>
+<a href="https://www.roblox.com/search/users?keyword=y4timz" class="link">Roblox</a>
 </div>
 
-<div id="modalOverlay">
-  <div class="modal-box">
-    <h3 style="font-family:'Playfair Display'; font-size:1.5rem; margin-bottom:12px">Buka Link?</h3>
-    <p style="font-size:0.9rem; color:var(--sub); line-height:1.5">Kamu akan diarahkan keluar dari halaman ini. Lanjutkan?</p>
-    <div class="modal-btn-wrap">
-      <button class="m-btn m-cancel" id="mCancel">Batal</button>
-      <button class="m-btn m-confirm" id="mConfirm">Gass!</button>
-    </div>
-  </div>
+<footer>
+© <script>document.write(new Date().getFullYear())</script>
+</footer>
+
 </div>
 
-<div id="yt-player"></div>
-
-<script src="https://www.youtube.com/iframe_api"></script>
-<script>
-  // 1. YouTube API Logic
-  let player;
-  const viz = document.getElementById('viz');
-  const pIcon = document.getElementById('pIcon');
-
-  function onYouTubeIframeAPIReady() {
-    player = new YT.Player('yt-player', {
-      videoId: 'vv_cQ3H9v2Y',
-      playerVars: { 'loop': 1, 'playlist': 'vv_cQ3H9v2Y' },
-      events: { 'onStateChange': (e) => {
-        if(e.data == 1) { 
-          viz.classList.add('playing');
-          pIcon.innerHTML = '<rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect>';
-        } else { 
-          viz.classList.remove('playing');
-          pIcon.innerHTML = '<polygon points="5 3 19 12 5 21 5 3"></polygon>';
-        }
-      }}
-    });
-  }
-
-  document.getElementById('playBtn').onclick = () => {
-    player.getPlayerState() == 1 ? player.pauseVideo() : player.playVideo();
-  };
-
-  // 2. Custom Confirmation Logic
-  const modal = document.getElementById('modalOverlay');
-  const mCancel = document.getElementById('mCancel');
-  const mConfirm = document.getElementById('mConfirm');
-  let targetURL = "";
-
-  document.querySelectorAll('.link-trigger').forEach(link => {
-    link.onclick = (e) => {
-      e.preventDefault();
-      targetURL = link.getAttribute('data-url');
-      modal.classList.add('active');
-    };
-  });
-
-  mCancel.onclick = () => modal.classList.remove('active');
-  mConfirm.onclick = () => {
-    window.open(targetURL, '_blank');
-    modal.classList.remove('active');
-  };
-
-  // 3. Theme Toggle Logic
-  const themeBtn = document.getElementById('themeToggle');
-  themeBtn.onclick = () => {
-    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-    document.documentElement.setAttribute('data-theme', isDark ? 'light' : 'dark');
-    document.getElementById('themeIcon').innerHTML = isDark 
-      ? '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>'
-      : '<circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line
+</body>
+</html>
