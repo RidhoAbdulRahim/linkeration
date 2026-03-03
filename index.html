@@ -5,81 +5,100 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Ridho — Expressive Discipline</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
 <style>
 
-/* ================= ROOT ================= */
+/* ======================================================
+   GLOBAL FOUNDATION
+====================================================== */
 
 :root{
---bg:#0b0c10;
---card:rgba(22,24,33,0.65);
---text:#f4f4f6;
---muted:#9da3b0;
---accent:#c6a15b;
---accent2:#6f8cff;
+--bg:#0a0b10;
+--card:rgba(18,20,28,0.7);
+--glass:rgba(255,255,255,0.06);
 --border:rgba(255,255,255,0.08);
+--text:#f3f4f6;
+--muted:#8b90a0;
+--accent:#c6a15b;
+--accentSoft:#c6a15b33;
+--blue:#6f8cff;
+--danger:#ff4d4d;
+--ease:cubic-bezier(.16,1,.3,1);
 }
 
 .light{
---bg:#f4f4f6;
+--bg:#f5f6f8;
 --card:rgba(255,255,255,0.7);
---text:#111;
---muted:#555;
---accent:#9a6a2b;
---accent2:#4f6cff;
+--glass:rgba(0,0,0,0.05);
 --border:rgba(0,0,0,0.08);
+--text:#111;
+--muted:#666;
+--accent:#9a6a2b;
+--accentSoft:#9a6a2b33;
+--blue:#4f6cff;
+--danger:#e23;
 }
 
-*{margin:0;padding:0;box-sizing:border-box;}
-html{scroll-behavior:smooth;}
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+html{
+scroll-behavior:smooth;
+}
+
 body{
 font-family:'Inter',sans-serif;
 background:var(--bg);
 color:var(--text);
 overflow-x:hidden;
 cursor:none;
-transition:.4s ease;
+transition:.6s var(--ease);
 }
 
-/* ================= BACKGROUND LAYERS ================= */
+/* ======================================================
+   LAYER SYSTEM
+====================================================== */
 
-canvas{
+canvas.webgl{
 position:fixed;
 top:0;
 left:0;
-z-index:-10;
+z-index:-20;
 }
 
-body::before{
-content:"";
+.background-gradient{
 position:fixed;
 inset:0;
 background:
-radial-gradient(circle at 20% 30%, #6f8cff33, transparent 60%),
-radial-gradient(circle at 80% 70%, #c6a15b33, transparent 60%);
+radial-gradient(circle at 20% 30%, #6f8cff22, transparent 60%),
+radial-gradient(circle at 80% 70%, #c6a15b22, transparent 60%);
 filter:blur(120px);
-opacity:.5;
-z-index:-9;
-animation:floatBG 20s ease-in-out infinite alternate;
-}
-@keyframes floatBG{
-from{transform:translateY(-40px);}
-to{transform:translateY(40px);}
+animation:ambientFloat 25s ease-in-out infinite alternate;
+z-index:-15;
 }
 
-body::after{
-content:"";
+@keyframes ambientFloat{
+from{transform:translateY(-50px);}
+to{transform:translateY(50px);}
+}
+
+.noise{
 position:fixed;
 inset:0;
 background:url("https://www.transparenttextures.com/patterns/noise.png");
 opacity:.03;
 pointer-events:none;
-z-index:-8;
+z-index:-10;
 }
 
-/* ================= INTRO ================= */
+/* ======================================================
+   INTRO SEQUENCE
+====================================================== */
 
 .intro{
 position:fixed;
@@ -89,104 +108,123 @@ display:flex;
 align-items:center;
 justify-content:center;
 font-family:'Playfair Display',serif;
-font-size:44px;
-letter-spacing:6px;
+font-size:48px;
+letter-spacing:8px;
 z-index:99999;
-animation:introFade 3.5s forwards;
+animation:introFade 4s forwards;
 }
+
 @keyframes introFade{
 0%{opacity:1;}
 85%{opacity:1;}
 100%{opacity:0;visibility:hidden;}
 }
 
-/* ================= CURSOR ================= */
+/* ======================================================
+   CURSOR ENGINE
+====================================================== */
 
 .cursor{
 position:fixed;
-width:24px;
-height:24px;
+width:26px;
+height:26px;
 border-radius:50%;
 background:radial-gradient(circle,var(--accent),transparent 70%);
 pointer-events:none;
 mix-blend-mode:screen;
 z-index:9999;
-transition:width .2s,height .2s;
+transition:width .2s,height .2s,transform .1s linear;
 }
 
-/* ================= PROGRESS ================= */
+/* ======================================================
+   PROGRESS BAR
+====================================================== */
 
 .progress{
 position:fixed;
 top:0;
 left:0;
 height:3px;
-background:linear-gradient(90deg,var(--accent),var(--accent2));
+background:linear-gradient(90deg,var(--accent),var(--blue));
 width:0%;
 z-index:9998;
 }
 
-/* ================= LAYOUT ================= */
+/* ======================================================
+   MAIN STRUCTURE
+====================================================== */
 
 .container{
-max-width:860px;
+max-width:920px;
 margin:auto;
-padding:160px 28px;
+padding:180px 32px;
 position:relative;
 z-index:2;
 }
 
-.hero{text-align:center;margin-bottom:160px;}
+.hero{
+text-align:center;
+margin-bottom:180px;
+}
 
 .profile{
-width:160px;
-height:160px;
+width:170px;
+height:170px;
 border-radius:50%;
 object-fit:cover;
 border:2px solid var(--border);
-transition:.6s ease;
-animation:breathe 5s infinite ease-in-out;
+animation:breathe 6s infinite ease-in-out;
+transition:.6s var(--ease);
 }
+
 @keyframes breathe{
 0%,100%{transform:scale(1);}
-50%{transform:scale(1.04);}
+50%{transform:scale(1.05);}
 }
 
 h1{
 font-family:'Playfair Display',serif;
-font-size:60px;
-margin-top:40px;
-transition:.5s;
+font-size:64px;
+margin-top:50px;
+transition:letter-spacing .6s var(--ease);
 }
 
 .username{
 color:var(--muted);
-margin:14px 0 40px;
+margin:16px 0 50px;
+font-size:18px;
 }
 
 .tagline{
 font-family:'Playfair Display',serif;
-font-size:26px;
-min-height:80px;
+font-size:28px;
+min-height:90px;
+opacity:.9;
 }
 
-/* ================= LINKS ================= */
+/* ======================================================
+   LINK SYSTEM
+====================================================== */
 
-.links{display:flex;flex-direction:column;gap:30px;}
+.links{
+display:flex;
+flex-direction:column;
+gap:34px;
+}
 
 .link{
-padding:30px 34px;
-border-radius:28px;
+padding:34px 38px;
+border-radius:30px;
 background:var(--card);
-backdrop-filter:blur(20px);
+backdrop-filter:blur(25px);
 border:1px solid var(--border);
 display:flex;
 align-items:center;
 justify-content:space-between;
 text-decoration:none;
 color:var(--text);
-font-size:18px;
-transition:.4s cubic-bezier(.16,1,.3,1);
+font-size:19px;
+transition:.5s var(--ease);
 transform-style:preserve-3d;
 position:relative;
 overflow:hidden;
@@ -198,93 +236,107 @@ position:absolute;
 inset:0;
 background:linear-gradient(120deg,transparent,rgba(255,255,255,.08),transparent);
 transform:translateX(-100%);
-transition:.6s;
+transition:1s var(--ease);
 }
-.link:hover::before{transform:translateX(100%);}
 
-.link-left{display:flex;align-items:center;gap:18px;}
+.link:hover::before{
+transform:translateX(100%);
+}
+
+.link-left{
+display:flex;
+align-items:center;
+gap:20px;
+}
 
 .icon-bubble{
-width:48px;
-height:48px;
-border-radius:16px;
+width:52px;
+height:52px;
+border-radius:18px;
 display:flex;
 align-items:center;
 justify-content:center;
-background:rgba(255,255,255,.06);
-border:1px solid rgba(255,255,255,.08);
-transition:.4s;
+background:var(--glass);
+border:1px solid var(--border);
+transition:.5s var(--ease);
 }
-.icon-bubble img{width:24px;height:24px;}
+
+.icon-bubble img{
+width:26px;
+height:26px;
+}
 
 .link:hover{
-transform:translateY(-12px) rotateX(4deg) rotateY(4deg);
+transform:translateY(-14px) rotateX(5deg) rotateY(5deg);
+box-shadow:0 40px 140px rgba(0,0,0,.4);
 }
 
-.discord:hover{box-shadow:0 30px 100px rgba(88,101,242,.5);}
-.whatsapp:hover{box-shadow:0 30px 100px rgba(37,211,102,.5);}
-.youtube:hover{box-shadow:0 30px 100px rgba(255,0,0,.5);}
-.instagram:hover{box-shadow:0 30px 100px rgba(225,48,108,.5);}
-.tiktok:hover{box-shadow:0 30px 100px rgba(0,242,234,.5);}
-.roblox:hover{box-shadow:0 30px 100px rgba(232,28,36,.5);}
+/* brand glow */
 
-.instagram-gradient{
-background:linear-gradient(45deg,#f58529,#dd2a7b,#8134af,#515bd4);
-background-size:300% 300%;
-animation:instaMove 6s ease infinite;
-}
-@keyframes instaMove{
-0%{background-position:0% 50%;}
-50%{background-position:100% 50%;}
-100%{background-position:0% 50%;}
+.discord:hover{box-shadow:0 40px 140px rgba(88,101,242,.5);}
+.whatsapp:hover{box-shadow:0 40px 140px rgba(37,211,102,.5);}
+.youtube:hover{box-shadow:0 40px 140px rgba(255,0,0,.5);}
+.instagram:hover{box-shadow:0 40px 140px rgba(225,48,108,.5);}
+.tiktok:hover{box-shadow:0 40px 140px rgba(0,242,234,.5);}
+.roblox:hover{box-shadow:0 40px 140px rgba(232,28,36,.5);}
+
+/* ======================================================
+   FOOTER
+====================================================== */
+
+footer{
+text-align:center;
+margin-top:240px;
+color:var(--muted);
+font-size:14px;
 }
 
-/* ================= PHILOSOPHY MODE ================= */
+/* ======================================================
+   PHILOSOPHY MODE
+====================================================== */
 
 .philosophy{
 position:fixed;
 inset:0;
-background:rgba(0,0,0,.95);
+background:rgba(0,0,0,.96);
 display:flex;
 align-items:center;
 justify-content:center;
 flex-direction:column;
 text-align:center;
-padding:40px;
+padding:60px;
 z-index:99999;
 opacity:0;
 pointer-events:none;
-transition:.6s ease;
+transition:.6s var(--ease);
 }
+
 .philosophy.active{
 opacity:1;
 pointer-events:auto;
 }
+
 .philosophy h2{
 font-family:'Playfair Display',serif;
-font-size:44px;
-margin-bottom:30px;
-}
-.philosophy p{
-max-width:700px;
-line-height:1.8;
-color:#bbb;
+font-size:46px;
+margin-bottom:40px;
 }
 
-footer{
-text-align:center;
-margin-top:200px;
-color:var(--muted);
+.philosophy p{
+max-width:800px;
+line-height:2;
+color:#bbb;
+font-size:18px;
 }
 
 .toggle{
 position:fixed;
-top:20px;
-right:20px;
-padding:10px 16px;
+top:24px;
+right:24px;
+padding:12px 18px;
 font-size:12px;
 letter-spacing:2px;
-border-radius:20px;
+border-radius:22px;
 border:1px solid var(--border);
 background:var(--card);
 cursor:pointer;
@@ -293,10 +345,14 @@ z-index:9999;
 
 </style>
 </head>
-
 <body>
 
 <div class="intro">RIDHO</div>
+
+<canvas class="webgl"></canvas>
+<div class="background-gradient"></div>
+<div class="noise"></div>
+
 <div class="progress"></div>
 <div class="cursor"></div>
 <div class="toggle" onclick="toggleTheme()">THEME</div>
@@ -304,11 +360,12 @@ z-index:9999;
 <div class="philosophy" id="philosophy">
 <h2>Expressive Discipline</h2>
 <p>
-Discipline is structure.  
-Structure creates clarity.  
-Clarity enables freedom.  
-Freedom unlocks expression.  
+Discipline is not restriction. It is structure.
+Structure creates clarity.
+Clarity enables freedom.
+Freedom allows expression.
 Expression defines identity.
+Identity compounds through repetition.
 </p>
 </div>
 
@@ -325,42 +382,54 @@ Expression defines identity.
 
 <a href="https://discord.com/users/ridhogeprek" class="link discord">
 <div class="link-left">
-<div class="icon-bubble"><img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/discord.svg"></div>
+<div class="icon-bubble">
+<img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/discord.svg">
+</div>
 <span>Discord</span>
 </div>
 </a>
 
 <a href="https://wa.me/6287753475412" class="link whatsapp">
 <div class="link-left">
-<div class="icon-bubble"><img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/whatsapp.svg"></div>
+<div class="icon-bubble">
+<img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/whatsapp.svg">
+</div>
 <span>WhatsApp</span>
 </div>
 </a>
 
 <a href="https://youtube.com/@y4timz" class="link youtube">
 <div class="link-left">
-<div class="icon-bubble"><img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/youtube.svg"></div>
+<div class="icon-bubble">
+<img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/youtube.svg">
+</div>
 <span>YouTube</span>
 </div>
 </a>
 
 <a href="https://instagram.com/ridhogeprek" class="link instagram">
 <div class="link-left">
-<div class="icon-bubble instagram-gradient"><img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/instagram.svg"></div>
+<div class="icon-bubble">
+<img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/instagram.svg">
+</div>
 <span>Instagram</span>
 </div>
 </a>
 
 <a href="https://tiktok.com/@idogeprek" class="link tiktok">
 <div class="link-left">
-<div class="icon-bubble"><img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/tiktok.svg"></div>
+<div class="icon-bubble">
+<img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/tiktok.svg">
+</div>
 <span>TikTok</span>
 </div>
 </a>
 
 <a href="https://www.roblox.com/search/users?keyword=y4timz" class="link roblox">
 <div class="link-left">
-<div class="icon-bubble"><img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/roblox.svg"></div>
+<div class="icon-bubble">
+<img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/roblox.svg">
+</div>
 <span>Roblox</span>
 </div>
 </a>
@@ -375,16 +444,13 @@ Expression defines identity.
 
 <script>
 
-/* SCROLL PROGRESS */
-window.addEventListener("scroll",()=>{
-const winScroll=document.documentElement.scrollTop;
-const height=document.documentElement.scrollHeight-document.documentElement.clientHeight;
-document.querySelector(".progress").style.width=(winScroll/height)*100+"%";
-});
+/* ======================================================
+   CORE INTERACTION ENGINE
+====================================================== */
 
-/* CURSOR + STRETCH */
 const cursor=document.querySelector(".cursor");
 let lastX=0,lastY=0;
+
 document.addEventListener("mousemove",e=>{
 cursor.style.left=e.clientX+"px";
 cursor.style.top=e.clientY+"px";
@@ -396,90 +462,70 @@ lastX=e.clientX;
 lastY=e.clientY;
 });
 
-/* MAGNETIC LINKS */
+/* scroll progress */
+window.addEventListener("scroll",()=>{
+const winScroll=document.documentElement.scrollTop;
+const height=document.documentElement.scrollHeight-document.documentElement.clientHeight;
+document.querySelector(".progress").style.width=(winScroll/height)*100+"%";
+});
+
+/* magnetic links */
 document.querySelectorAll(".link").forEach(link=>{
 link.addEventListener("mousemove",e=>{
 const rect=link.getBoundingClientRect();
 const x=e.clientX-rect.left-rect.width/2;
 const y=e.clientY-rect.top-rect.height/2;
-link.style.transform=`translateY(-12px) rotateX(${y/20}deg) rotateY(${x/20}deg)`;
+link.style.transform=`translateY(-14px) rotateX(${y/18}deg) rotateY(${x/18}deg)`;
 });
 link.addEventListener("mouseleave",()=>{
 link.style.transform="translateY(0)";
 });
 });
 
-/* QUOTES */
+/* quote system */
 const quotes=[
 "Discipline creates freedom.",
-"Silence builds identity.",
+"Silence sharpens identity.",
 "Consistency compounds power.",
-"Expression requires structure."
+"Expression requires structure.",
+"Depth emerges through repetition."
 ];
-let i=0;
+let qi=0;
 quote.innerText=quotes[0];
 setInterval(()=>{
-i=(i+1)%quotes.length;
-quote.innerText=quotes[i];
-},4000);
+qi=(qi+1)%quotes.length;
+quote.innerText=quotes[qi];
+},4500);
 
-/* NAME MORPH */
+/* name morph */
 setInterval(()=>{
-name.style.letterSpacing=Math.random()*6+"px";
-},2500);
+name.style.letterSpacing=Math.random()*8+"px";
+},3000);
 
-/* THEME */
+/* theme memory */
 if(localStorage.getItem("theme")==="light"){document.body.classList.add("light");}
 function toggleTheme(){
 document.body.classList.toggle("light");
 localStorage.setItem("theme",document.body.classList.contains("light")?"light":"dark");
 }
 
-/* PHILOSOPHY */
+/* philosophy toggle */
 document.addEventListener("keydown",e=>{
 if(e.key==="p"){philosophy.classList.toggle("active");}
 });
 
-/* ASCEND MODE */
-let aCount=0;
-document.addEventListener("keydown",e=>{
-if(e.key==="a"){
-aCount++;
-if(aCount===3){
-mesh.material.color.set(0x6f8cff);
-alert("Ascend Mode Activated.");
-aCount=0;
-}
-}
-});
-
-/* PROFILE EASTER */
-let taps=0;
-profile.addEventListener("click",()=>{
-taps++;
-if(taps===5){
-alert("Hidden Depth Mode Activated.");
-taps=0;
-}
-});
-
-/* THREE JS BACKGROUND */
-let scene=new THREE.Scene();
-let camera=new THREE.PerspectiveCamera(75,window.innerWidth/window.innerHeight,0.1,1000);
-let renderer=new THREE.WebGLRenderer({alpha:true});
+/* three.js core scene */
+const scene=new THREE.Scene();
+const camera=new THREE.PerspectiveCamera(75,window.innerWidth/window.innerHeight,0.1,1000);
+const renderer=new THREE.WebGLRenderer({canvas:document.querySelector(".webgl"),alpha:true});
 renderer.setSize(window.innerWidth,window.innerHeight);
-renderer.domElement.style.position="fixed";
-renderer.domElement.style.top="0";
-renderer.domElement.style.left="0";
-renderer.domElement.style.zIndex="-10";
-document.body.appendChild(renderer.domElement);
 
-let geometry=new THREE.IcosahedronGeometry(5,2);
-let material=new THREE.MeshStandardMaterial({color:0xc6a15b,wireframe:true});
-let mesh=new THREE.Mesh(geometry,material);
+const geometry=new THREE.IcosahedronGeometry(5,2);
+const material=new THREE.MeshStandardMaterial({color:0xc6a15b,wireframe:true});
+const mesh=new THREE.Mesh(geometry,material);
 scene.add(mesh);
 
-let light=new THREE.PointLight(0xffffff,1);
+const light=new THREE.PointLight(0xffffff,1);
 light.position.set(10,10,10);
 scene.add(light);
 
@@ -497,30 +543,6 @@ document.addEventListener("mousemove",e=>{
 camera.position.x=(e.clientX/window.innerWidth-0.5)*3;
 camera.position.y=-(e.clientY/window.innerHeight-0.5)*3;
 camera.lookAt(scene.position);
-});
-
-/* PARTICLE BURST */
-document.addEventListener("click",e=>{
-for(let i=0;i<12;i++){
-let p=document.createElement("div");
-p.style.position="fixed";
-p.style.width="6px";
-p.style.height="6px";
-p.style.borderRadius="50%";
-p.style.background="var(--accent)";
-p.style.left=e.clientX+"px";
-p.style.top=e.clientY+"px";
-p.style.pointerEvents="none";
-p.style.zIndex="9999";
-document.body.appendChild(p);
-let angle=Math.random()*2*Math.PI;
-let distance=Math.random()*120;
-p.animate([
-{transform:"translate(0,0)",opacity:1},
-{transform:`translate(${Math.cos(angle)*distance}px,${Math.sin(angle)*distance}px)`,opacity:0}
-],{duration:800,easing:"ease-out"});
-setTimeout(()=>p.remove(),800);
-}
 });
 
 </script>
