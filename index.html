@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ridho — Life Linktree Ultimate</title>
+<title>Ridho — Life Linktree Ultimate AI Mode</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <style>
@@ -25,35 +25,109 @@ cursor:none;
 transition:.6s var(--ease);
 }
 canvas.webgl, .shader-overlay{position:fixed;top:0;left:0;width:100%;height:100%;z-index:-30;}
-.background-gradient{position:fixed;inset:0;background:radial-gradient(circle at 20% 30%, #6f8cff22, transparent 60%),radial-gradient(circle at 80% 70%, #c6a15b22, transparent 60%);filter:blur(120px);animation:ambientFloat 30s ease-in-out infinite alternate;z-index:-15;}
+.background-gradient{
+position:fixed;inset:0;
+background:radial-gradient(circle at 20% 30%, #6f8cff22, transparent 60%),radial-gradient(circle at 80% 70%, #c6a15b22, transparent 60%);
+filter:blur(120px);
+animation:ambientFloat 30s ease-in-out infinite alternate;
+z-index:-15;
+}
 @keyframes ambientFloat{from{transform:translateY(-50px);}to{transform:translateY(50px);}}
-.noise{position:fixed;inset:0;background:url("https://www.transparenttextures.com/patterns/noise.png");opacity:.03;pointer-events:none;z-index:-10;}
-.intro{position:fixed;inset:0;background:#000;display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:48px;letter-spacing:8px;z-index:99999;animation:introFade 4s forwards;}
+.noise{
+position:fixed;inset:0;
+background:url("https://www.transparenttextures.com/patterns/noise.png");
+opacity:.03;
+pointer-events:none;
+z-index:-10;
+}
+.intro{
+position:fixed;inset:0;
+background:#000;
+display:flex;align-items:center;justify-content:center;
+font-family:'Playfair Display',serif;
+font-size:48px;letter-spacing:8px;
+z-index:99999;
+animation:introFade 4s forwards;
+}
 @keyframes introFade{0%{opacity:1;}85%{opacity:1;}100%{opacity:0;visibility:hidden;}}
-.cursor{position:fixed;width:26px;height:26px;border-radius:50%;background:radial-gradient(circle,var(--accent),transparent 70%);pointer-events:none;mix-blend-mode:screen;z-index:9999;transition:width .2s,height .2s,transform .1s linear;}
-.progress{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--accent),var(--blue));width:0%;z-index:9998;}
+.cursor{
+position:fixed;width:26px;height:26px;border-radius:50%;
+background:radial-gradient(circle,var(--accent),transparent 70%);
+pointer-events:none;mix-blend-mode:screen;
+z-index:9999;
+transition:width .2s,height .2s,transform .1s linear;
+}
+.cursor-trail{
+position:fixed;width:14px;height:14px;border-radius:50%;
+background:var(--accentSoft);
+pointer-events:none;
+z-index:9998;opacity:.7;
+}
+.progress{
+position:fixed;top:0;left:0;height:3px;
+background:linear-gradient(90deg,var(--accent),var(--blue));
+width:0%;z-index:9998;
+}
 .container{max-width:920px;margin:auto;padding:180px 32px;position:relative;z-index:2;}
 .hero{text-align:center;margin-bottom:180px;}
-.profile{width:180px;height:180px;border-radius:50%;object-fit:cover;border:2px solid var(--border);animation:breathe 6s infinite ease-in-out;transition:.6s var(--ease);}
+.profile{
+width:180px;height:180px;border-radius:50%;object-fit:cover;
+border:2px solid var(--border);
+animation:breathe 6s infinite ease-in-out;
+transition:.6s var(--ease);
+}
 @keyframes breathe{0%,100%{transform:scale(1);}50%{transform:scale(1.06);}}
 h1{font-family:'Playfair Display',serif;font-size:64px;margin-top:50px;transition:letter-spacing .6s var(--ease);}
 .username{color:var(--muted);margin:16px 0 50px;font-size:18px;}
 .tagline{font-family:'Playfair Display',serif;font-size:28px;min-height:90px;opacity:.9;transition:opacity .6s;}
 .links{display:flex;flex-direction:column;gap:38px;}
-.link{padding:38px 40px;border-radius:32px;background:var(--card);backdrop-filter:blur(25px);border:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;text-decoration:none;color:var(--text);font-size:19px;transition:.5s var(--ease);transform-style:preserve-3d;position:relative;overflow:hidden;}
-.link::before{content:"";position:absolute;inset:0;background:linear-gradient(120deg,transparent,rgba(255,255,255,.08),transparent);transform:translateX(-100%);transition:1s var(--ease);}
+.link{
+padding:38px 40px;border-radius:32px;background:var(--card);
+backdrop-filter:blur(25px);border:1px solid var(--border);
+display:flex;align-items:center;justify-content:space-between;
+text-decoration:none;color:var(--text);
+font-size:19px;transition:.5s var(--ease);
+transform-style:preserve-3d;position:relative;overflow:hidden;
+}
+.link::before{
+content:"";position:absolute;inset:0;
+background:linear-gradient(120deg,transparent,rgba(255,255,255,.08),transparent);
+transform:translateX(-100%);
+transition:1s var(--ease);
+}
 .link:hover::before{transform:translateX(100%);}
 .link-left{display:flex;align-items:center;gap:20px;}
-.icon-bubble{width:56px;height:56px;border-radius:18px;display:flex;align-items:center;justify-content:center;background:var(--glass);border:1px solid var(--border);transition:.5s var(--ease);}
+.icon-bubble{
+width:56px;height:56px;border-radius:18px;
+display:flex;align-items:center;justify-content:center;
+background:var(--glass);border:1px solid var(--border);
+transition:.5s var(--ease);
+}
 .icon-bubble img{width:28px;height:28px;}
 .link span.motive{font-size:12px;color:var(--muted);margin-left:6px;font-style:italic;}
 .link:hover{transform:translateY(-16px) rotateX(5deg) rotateY(5deg);box-shadow:0 48px 160px rgba(0,0,0,.45);}
 footer{text-align:center;margin-top:260px;color:var(--muted);font-size:14px;}
-.philosophy{position:fixed;inset:0;background:rgba(0,0,0,.96);display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center;padding:60px;z-index:99999;opacity:0;pointer-events:none;transition:.6s var(--ease);}
+.philosophy{
+position:fixed;inset:0;background:rgba(0,0,0,.96);
+display:flex;align-items:center;justify-content:center;flex-direction:column;
+text-align:center;padding:60px;z-index:99999;opacity:0;pointer-events:none;
+transition:.6s var(--ease);
+}
 .philosophy.active{opacity:1;pointer-events:auto;}
 .philosophy h2{font-family:'Playfair Display',serif;font-size:46px;margin-bottom:40px;}
 .philosophy p{max-width:800px;line-height:2;color:#bbb;font-size:18px;}
-.toggle{position:fixed;top:24px;right:24px;padding:12px 18px;font-size:12px;letter-spacing:2px;border-radius:22px;border:1px solid var(--border);background:var(--card);cursor:pointer;z-index:9999;}
+.toggle{
+position:fixed;top:24px;right:24px;padding:12px 18px;font-size:12px;
+letter-spacing:2px;border-radius:22px;border:1px solid var(--border);
+background:var(--card);cursor:pointer;z-index:9999;
+}
+@media(max-width:768px){
+.hero h1{font-size:48px;}
+.tagline{font-size:20px;}
+.link{padding:26px 20px;font-size:16px;}
+.icon-bubble{width:48px;height:48px;}
+.icon-bubble img{width:24px;height:24px;}
+}
 </style>
 </head>
 <body>
@@ -85,7 +159,6 @@ Action composes experience; experience composes life.
 </div>
 
 <div class="links">
-
 <a href="https://discord.com/users/ridhogeprek" class="link" style="--accentColor:var(--discord)">
 <div class="link-left">
 <div class="icon-bubble"><img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/discord.svg"></div>
@@ -189,7 +262,7 @@ const sctx=shaderCanvas.getContext("2d");
 shaderCanvas.width=window.innerWidth;
 shaderCanvas.height=window.innerHeight;
 const particles=[];
-for(let i=0;i<250;i++){particles.push({x:Math.random()*window.innerWidth,y:Math.random()*window.innerHeight,radius:Math.random()*2+0.5,speed:Math.random()*0.5+0.1,color:['#5865F2','#FF0000','#E1306C','#00F2EA','#25D366','#E81C24'][Math.floor(Math.random()*6)]});}
+for(let i=0;i<300;i++){particles.push({x:Math.random()*window.innerWidth,y:Math.random()*window.innerHeight,radius:Math.random()*2+0.5,speed:Math.random()*0.5+0.1,color:['#5865F2','#FF0000','#E1306C','#00F2EA','#25D366','#E81C24'][Math.floor(Math.random()*6)]});}
 function shaderAnimate(){sctx.clearRect(0,0,shaderCanvas.width,shaderCanvas.height);for(let p of particles){p.y-=p.speed;if(p.y<0)p.y=shaderCanvas.height;sctx.beginPath();sctx.arc(p.x,p.y,p.radius,0,Math.PI*2);sctx.fillStyle=p.color;sctx.fill();}requestAnimationFrame(shaderAnimate);}
 shaderAnimate();
 </script>
